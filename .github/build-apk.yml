@@ -1,0 +1,48 @@
+name: Build APK
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - run: npm install
+      - run: npx cap add android
+      - name: Buat ikon dan splash screen
+        run: |
+          pip install pillow
+          python make_assets.py
+          npx @capacitor/assets@3.0.5 generate --android --iconBackgroundColor '#1a0f1f' --splashBackgroundColor '#000000'
+      - name: Atur splash hitam polos
+        run: |
+          sed -i 's/#1a0f1f/#000000/' capacitor.config.json
+          python - <<'PY'
+          import re, os
+          d = 'android/app/src/main/res'
+          os.makedirs(d + '/drawable', exist_ok=True)
+          open(d + '/drawable/splash_empty.xml', 'w').write('<?xml version="1.0" encoding="utf-8"?>\n<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle"><solid android:color="#00000000"/><size android:width="1dp" android:height="1dp"/></shape>\n')
+          f = d + '/values/styles.xml'
+          s = open(f).read()
+          m = re.search(r'<style name="AppTheme.NoActionBarLaunch"[^>]*>', s)
+          if m:
+              s = s[:m.end()] + '\n        <item name="windowSplashScreenBackground">#000000</item>\n        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_empty</item>' + s[m.end():]
+              open(f, 'w').write(s)
+              print('styles splash diatur')
+          else:
+              print('style splash tidak ditemukan, dilewati')
+          PY
+      - run: npx cap sync android
+      - run: chmod +x android/gradlew && cd android && ./gradlew assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: drakoo-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
