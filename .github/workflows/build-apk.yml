@@ -17,6 +17,11 @@ jobs:
           java-version: 17
       - run: npm install
       - run: npx cap add android
+      - name: Buat ikon dan splash screen
+        run: |
+          pip install pillow
+          python make_assets.py
+          npx @capacitor/assets@3.0.5 generate --android --iconBackgroundColor '#1a0f1f' --splashBackgroundColor '#1a0f1f'
       - run: npx cap sync android
       - run: chmod +x android/gradlew && cd android && ./gradlew assembleDebug
       - uses: actions/upload-artifact@v4
