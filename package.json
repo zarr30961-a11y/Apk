@@ -1,13 +1,14 @@
 {
   "name": "drakoo",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "scripts": {
     "sync": "npx cap sync android"
   },
   "dependencies": {
     "@capacitor/android": "^6.1.0",
-    "@capacitor/core": "^6.1.0"
+    "@capacitor/core": "^6.1.0",
+    "@capacitor/local-notifications": "^6.0.0"
   },
   "devDependencies": {
     "@capacitor/cli": "^6.1.0"
