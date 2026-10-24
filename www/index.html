@@ -132,17 +132,41 @@ main{overflow-x:hidden}
 .eph{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-weight:600}
 .epl .ep{background:#2a1a31;border-color:#3d2a45;color:#fbf1ea}
 .epl .ep.cur{background:#ffb23e;color:#2a1330;border-color:#ffb23e}
+nav button svg.ni{display:block;width:24px;height:24px;margin:0 auto 3px}
+.ni .o{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}
+.ni .s{display:none;fill:currentColor;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round}
+nav button.on .ni .o{display:none}
+nav button.on .ni .s{display:inline}
+.side{gap:20px!important;bottom:70px!important}
+.side button svg{width:38px;height:38px;fill:#fff;display:block;margin:0 auto;filter:drop-shadow(0 1px 4px rgba(0,0,0,.5))}
+.side small{font-size:13px!important;font-weight:600;margin-top:3px;text-shadow:0 1px 4px rgba(0,0,0,.7)}
+#like.on svg{fill:#ff3b5c}
+#save.on svg{fill:#ffb23e}
+#intro{position:fixed;inset:0;background:#000;z-index:100;display:flex;align-items:center;justify-content:center;transition:opacity .6s}
+#intro.out{opacity:0;pointer-events:none}
+#intro .lg{display:flex;flex-direction:column;align-items:center;gap:18px;opacity:0;animation:ilogo 2s ease-out .3s forwards}
+#intro b{color:#fbf1ea;font-size:28px;font-weight:800;letter-spacing:.5px;font-family:"Bricolage Grotesque",system-ui,sans-serif}
+@keyframes ilogo{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){#intro .lg{animation-duration:.6s}}
+.ni .o.f{fill:currentColor;stroke:none}
+.ni .s.k{fill:var(--bg);stroke:none}
+.ni .s.r{fill:none;stroke:var(--bg);stroke-width:1.6}
+.ni .s.m{fill:none;stroke-width:2.8;stroke-linecap:round}
+.sbar{position:relative;margin-top:14px}
+.sbar svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:22px;height:22px;fill:none;stroke:var(--mu);stroke-width:2;stroke-linecap:round;pointer-events:none}
+.sbar .sbox{margin-top:0;padding-left:46px;border-radius:26px}
 </style>
 </head>
 <body>
+<div id="intro" aria-hidden="true"><div class="lg"><svg viewBox="0 0 100 100" width="120" height="120"><rect width="100" height="100" rx="25" fill="#ffb23e"/><polygon points="38,28 38,72 74,50" fill="#1a0f1f"/></svg><b>Drakoo</b></div></div>
 <div id="app">
   <main id="main"></main>
   <nav>
-    <button data-t="home" class="on"><span>🏠</span>Home</button>
-    <button data-t="search"><span>🔍</span>Search</button>
-    <button data-t="reward"><span>🎁</span>Reward</button>
-    <button data-t="list"><span>❤️</span>Favorite</button>
-    <button data-t="my"><span>👤</span>My</button>
+    <button data-t="home" class="on"><svg class="ni" viewBox="0 0 24 24"><path class="o" d="M12 3 3.5 9.5v10.7h5.6v-6h5.8v6h5.6V9.5z"/><path class="s" d="M12 3 3.5 9.5v10.7h5.6v-6h5.8v6h5.6V9.5z"/></svg>Beranda</button>
+    <button data-t="search"><svg class="ni" viewBox="0 0 24 24"><circle class="o m" cx="10.5" cy="10.5" r="6.5"/><path class="o m" d="M15.5 15.5 21 21"/><circle class="s m" cx="10.5" cy="10.5" r="6.5"/><path class="s m" d="M15.5 15.5 21 21"/></svg>Search</button>
+    <button data-t="reward"><svg class="ni" viewBox="0 0 24 24"><rect class="o" x="3.5" y="8" width="17" height="4" rx="1"/><path class="o" d="M5 12v7.5a1.5 1.5 0 0 0 1.5 1.5h11a1.5 1.5 0 0 0 1.5-1.5V12"/><path class="o" d="M12 8v13"/><path class="o" d="M12 8c-1.2-3-4.8-3.6-4.8-1.3C7.2 8 9.6 8 12 8zm0 0c1.2-3 4.8-3.6 4.8-1.3C16.8 8 14.4 8 12 8z"/><rect class="s" x="3.5" y="8" width="17" height="4" rx="1"/><path class="s" d="M5 12v7.5a1.5 1.5 0 0 0 1.5 1.5h11a1.5 1.5 0 0 0 1.5-1.5V12"/><path class="s r" d="M12 8v13"/><path class="s" d="M12 8c-1.2-3-4.8-3.6-4.8-1.3C7.2 8 9.6 8 12 8zm0 0c1.2-3 4.8-3.6 4.8-1.3C16.8 8 14.4 8 12 8z"/></svg>Hadiah</button>
+    <button data-t="list"><svg class="ni" viewBox="0 0 24 24"><path class="o" d="M6.5 3h11A1.5 1.5 0 0 1 19 4.5V21l-7-4.2L5 21V4.5A1.5 1.5 0 0 1 6.5 3z"/><path class="o f" d="M12 6.4l1.15 2.35 2.6.35-1.9 1.8.5 2.55L12 12.2l-2.35 1.25.5-2.55-1.9-1.8 2.6-.35z"/><path class="s" d="M6.5 3h11A1.5 1.5 0 0 1 19 4.5V21l-7-4.2L5 21V4.5A1.5 1.5 0 0 1 6.5 3z"/><path class="s k" d="M12 6.4l1.15 2.35 2.6.35-1.9 1.8.5 2.55L12 12.2l-2.35 1.25.5-2.55-1.9-1.8 2.6-.35z"/></svg>Daftar Saya</button>
+    <button data-t="my"><svg class="ni" viewBox="0 0 24 24"><circle class="o" cx="12" cy="8" r="4"/><path class="o" d="M4.5 20.5c0-3.7 3.4-6 7.5-6s7.5 2.3 7.5 6z"/><circle class="s" cx="12" cy="8" r="4"/><path class="s" d="M4.5 20.5c0-3.7 3.4-6 7.5-6s7.5 2.3 7.5 6z"/></svg>Profil</button>
   </nav>
   <section class="sheet" id="detail"></section>
   <section class="player" id="player">
@@ -152,13 +176,9 @@ main{overflow-x:hidden}
     <div class="spd" id="spd">⏩ 2x</div>
     <div class="ptop"><div class="bar"><i id="fill"></i></div><div><button id="close" aria-label="Tutup">✕ Tutup</button><span id="pt"></span></div></div>
     <div class="side">
-      <button id="like" aria-label="Suka">🤍<small id="lc">0</small></button>
-      <button id="save" aria-label="Simpan">🔖<small>Simpan</small></button>
-      <button id="vf" aria-label="Pilih video dari HP">📁<small>Video</small></button>
-      <button id="epb" aria-label="Daftar episode">☰<small>Episode</small></button>
-      <button id="spb" aria-label="Kecepatan">⚡<small id="spl">1x</small></button>
-      <button id="ccb" aria-label="Subtitle">💬<small id="ccl">CC off</small></button>
-      <button id="shb" aria-label="Bagikan">📤<small>Bagikan</small></button>
+      <button id="like" aria-label="Suka"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><small id="lc">0</small></button>
+      <button id="save" aria-label="Favorit"><svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg><small id="sc">0</small></button>
+      <button id="shb" aria-label="Bagikan"><svg viewBox="0 0 24 24" style="transform:scaleX(-1)"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></svg><small id="shc">0</small></button>
     </div>
     <div class="epl" id="epl"><div class="eph"><b id="eplt"></b><button id="epx" aria-label="Tutup daftar episode">✕</button></div><div class="eps" id="epg"></div></div>
     
@@ -241,23 +261,23 @@ function render(){
   '<h2>Baru tayang</h2><div class="row">'+L.slice().reverse().map(card).join("")+'</div>'+
   (L.length?'':'<p class="empty">Belum ada drama untuk genre ini.</p>');
  }else if(S.tab=="search"){
-  h='<h1>Search</h1><input class="sbox" id="q" type="search" placeholder="Cari judul atau genre" value="'+esc(S.q||"")+'" autocomplete="off"><div id="res" style="margin-top:16px">'+resHtml()+'</div>';
+  h='<h1>Search</h1><div class="sbar"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg><input class="sbox" id="q" type="search" placeholder="Cari judul atau genre" value="'+esc(S.q||"")+'" autocomplete="off"></div><div id="res" style="margin-top:16px">'+resHtml()+'</div>';
  }else if(S.tab=="reward"){
   var td=today(),done=S.last==td,alive=done||S.last==yest(),cur=alive?(S.streak||0):0,fl=cur?((cur-1)%7)+1:0,te=S.day==td?S.today:0,dh="";
   for(var i=1;i<=7;i++)dh+='<div class="day'+(i<=fl?' on':'')+'">'+(i==7?'🏆':i)+'</div>';
-  h='<h1>Reward</h1><h2>Absen harian</h2><p style="color:var(--mu);font-size:14px">Streak saat ini: '+cur+' hari. Absen 7 hari berturut-turut untuk mendapat lencana 🏆.</p><div class="days">'+dh+'</div>'+
+  h='<h1>Hadiah</h1><h2>Absen harian</h2><p style="color:var(--mu);font-size:14px">Streak saat ini: '+cur+' hari. Absen 7 hari berturut-turut untuk mendapat lencana 🏆.</p><div class="days">'+dh+'</div>'+
   '<button class="btn" id="ci"'+(done?' disabled':'')+' style="width:100%">'+(done?'Sudah absen hari ini':'Absen hari ini')+'</button>'+
   '<h2>Misi hari ini</h2><div class="mis"><div>Absen harian<small>'+(done?'Selesai':'Belum selesai')+'</small></div><span>'+(done?'✅':'⬜')+'</span></div>'+
   '<div class="mis"><div>Tonton 3 episode<small>'+Math.min(te,3)+' / 3</small></div><span>'+(te>=3?'✅':'⬜')+'</span></div>'+
   '<h2>Lencana</h2><div class="mis"><div>Pemburu Drama<small>Streak 7 hari</small></div><span>🏆 × '+(S.sev||0)+'</span></div>';
  }else if(S.tab=="my"){
   var hl=(S.hist||[]).map(function(i){return D[i]});
-  h='<h1>My</h1><div class="stats"><div class="stat"><b>'+(S.eps||0)+'</b><span>Episode ditonton</span></div><div class="stat"><b>'+hl.length+'</b><span>Drama ditonton</span></div><div class="stat"><b>'+S.list.length+'</b><span>Favorite</span></div><div class="stat"><b>'+(S.sev||0)+'</b><span>Lencana</span></div></div>'+
+  h='<h1>Profil</h1><div class="stats"><div class="stat"><b>'+(S.eps||0)+'</b><span>Episode ditonton</span></div><div class="stat"><b>'+hl.length+'</b><span>Drama ditonton</span></div><div class="stat"><b>'+S.list.length+'</b><span>Daftar Saya</span></div><div class="stat"><b>'+(S.sev||0)+'</b><span>Lencana</span></div></div>'+
   '<h2>Tema</h2><div class="chips" style="margin-top:0">'+[["auto","Otomatis"],["light","Terang"],["dark","Gelap"]].map(function(x){return '<button class="chip'+((S.theme||"auto")==x[0]?' on':'')+'" data-th="'+x[0]+'">'+x[1]+'</button>'}).join("")+'</div><h2>Terakhir ditonton</h2>'+(hl.length?'<div class="row">'+hl.map(card).join("")+'</div>':'<p class="empty" style="margin-top:20px">Belum ada riwayat.<br>Mulai nonton dari Home.</p>')+
   '<button class="btn alt" id="rst" style="width:100%;margin-top:28px">Hapus semua data</button>';
  }else{
   var L2=D.filter(function(d){return S.list.indexOf(d.id)>-1});
-  h='<h1>Favorite</h1>'+(L2.length?'<h2>Tersimpan</h2><div class="grid">'+L2.map(card).join("")+'</div>':'<p class="empty">Favoritmu masih kosong.<br>Simpan drama dari halaman detail atau saat menonton.</p>');
+  h='<h1>Daftar Saya</h1>'+(L2.length?'<h2>Tersimpan</h2><div class="grid">'+L2.map(card).join("")+'</div>':'<p class="empty">Daftar Saya masih kosong.<br>Simpan drama dari halaman detail atau saat menonton.</p>');
  }
  m.innerHTML=h;initCar();
 }
@@ -269,7 +289,11 @@ function openDetail(id){
 }
 var P={d:null,n:1,p:0,pause:false,li:0,h:null,v:false},LOCAL={};
 function srcOf(d,n){var k=d.id+"-"+n;if(LOCAL[k])return LOCAL[k];return d.v?d.v.replace("{n}",n):""}
-function side(){var k=P.d.id+"-"+P.n;$("lc").textContent=(120+P.n*7+(S.likes[k]?1:0));$("like").firstChild.textContent=S.likes[k]?"❤️":"🤍";$("save").firstChild.textContent=S.list.indexOf(P.d.id)>-1?"📌":"🔖";$("spl").textContent=baseRate()+"x";$("ccl").textContent=S.cc?"CC on":"CC off"}
+function fmt(n){return n>=1000?(n/1000).toFixed(1).replace(".",",")+" rb":String(n)}
+function side(){var k=P.d.id+"-"+P.n,lk=!!S.likes[k],sd=S.list.indexOf(P.d.id)>-1,b=8000+P.d.id*2300+P.n*173;
+ $("lc").textContent=fmt(b+(lk?1:0));$("like").classList.toggle("on",lk);
+ $("sc").textContent=fmt(Math.round(b*0.027)+(sd?1:0));$("save").classList.toggle("on",sd);
+ $("shc").textContent=fmt(Math.round(b*0.009))}
 function baseRate(){return S.spd||1}
 function setTrack(){var v=$("vid");[].slice.call(v.querySelectorAll("track")).forEach(function(t){t.remove()});if(S.cc&&P.v&&P.d.sub&&!LOCAL[P.d.id+"-"+P.n]){var t=document.createElement("track");t.kind="subtitles";t.srclang="id";t.label="Indonesia";t.src=P.d.sub.replace("{n}",P.n);t.default=true;v.appendChild(t)}}
 function saveProg(){if(!P.d)return;var v=$("vid"),pc=P.v?(v.duration?v.currentTime/v.duration*100:0):P.p;S.prog[P.d.id]={n:P.n,t:P.v?v.currentTime:0,p:Math.min(100,pc),ts:Date.now()};sv()}
@@ -340,14 +364,14 @@ document.addEventListener("click",function(e){
  if(t.dataset.th){S.theme=t.dataset.th;applyTheme();sv();render();return}
  if(t.dataset.sh){share(D[+t.dataset.sh]);return}
  if(t.dataset.rm){var cz=CS.filter(function(z){return z.id==+t.dataset.rm})[0];S.rem[cz.id]=!S.rem[cz.id];sv();remind(cz,S.rem[cz.id]);t.classList.toggle("on",!!S.rem[cz.id]);t.textContent=S.rem[cz.id]?"✓ Diingatkan":"🔔 Ingatkan saya";tt(S.rem[cz.id]?"Pengingat tayang "+dlab(cz.at)+" disimpan":"Pengingat dibatalkan");return}
- if(t.dataset.s){var i=+t.dataset.s,x=S.list.indexOf(i);if(x>-1)S.list.splice(x,1);else S.list.push(i);sv();openDetail(i);tt(x>-1?"Dihapus dari Daftarku":"Disimpan ke Daftarku");return}
+ if(t.dataset.s){var i=+t.dataset.s,x=S.list.indexOf(i);if(x>-1)S.list.splice(x,1);else S.list.push(i);sv();openDetail(i);tt(x>-1?"Dihapus dari Daftar Saya":"Disimpan ke Daftar Saya");return}
  if(t.dataset.d){openDetail(+t.dataset.d);return}
  if(t.id=="bk"){$("detail").classList.remove("show");render();return}
  if(t.id=="ci"){var td=today();if(S.last==td)return;S.streak=(S.last==yest()?(S.streak||0):0)+1;S.last=td;if(S.streak%7==0){S.sev=(S.sev||0)+1;tt("Streak 7 hari! Lencana didapat 🏆")}else tt("Absen berhasil. Streak "+S.streak+" hari");sv();render();return}
  if(t.id=="rst"){if(!t.dataset.a){t.dataset.a=1;t.textContent="Ketuk lagi untuk menghapus";return}try{localStorage.removeItem("drakoo")}catch(e){}S.list=[];S.likes={};S.hist=[];S.prog={};S.rem={};S.spd=1;S.cc=false;S.theme="auto";applyTheme();S.eps=0;S.streak=0;S.last="";S.sev=0;S.today=0;sv();render();tt("Data dihapus");return}
  if(t.id=="close"){saveProg();clearInterval(P.h);$("epl").classList.remove("show");$("vid").pause();P.v=false;$("player").classList.remove("show");render();return}
  if(t.id=="like"){var k=P.d.id+"-"+P.n;S.likes[k]=!S.likes[k];sv();side();return}
- if(t.id=="save"){var id=P.d.id,y=S.list.indexOf(id);if(y>-1)S.list.splice(y,1);else S.list.push(id);sv();$("save").firstChild.textContent=y>-1?"🔖":"📌";tt(y>-1?"Dihapus dari Daftarku":"Disimpan ke Daftarku");return}
+ if(t.id=="save"){var id=P.d.id,y=S.list.indexOf(id);if(y>-1)S.list.splice(y,1);else S.list.push(id);sv();side();tt(y>-1?"Dihapus dari Daftar Saya":"Disimpan ke Daftar Saya");return}
  if(t.id=="epb"){openEpl();return}
  if(t.id=="epx"){$("epl").classList.remove("show");return}
  if(t.id=="spb"){var SP=[0.75,1,1.25,1.5,2];S.spd=SP[(SP.indexOf(baseRate())+1)%SP.length];P.rate=S.spd;$("vid").playbackRate=P.rate;sv();side();tt("Kecepatan "+S.spd+"x");return}
@@ -357,6 +381,9 @@ document.addEventListener("click",function(e){
  
 });
 applyTheme();render();
+function endIntro(){var i=$("intro");if(!i||i.className=="out")return;i.className="out";setTimeout(function(){if(i.parentNode)i.remove()},700)}
+$("intro").addEventListener("click",endIntro);
+setTimeout(endIntro,2800);
 </script>
 </body>
 </html>
