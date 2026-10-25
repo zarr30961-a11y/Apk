@@ -21,9 +21,90 @@ jobs:
         run: |
           pip install pillow
           python make_assets.py
-          npx @capacitor/assets@3.0.5 generate --android --iconBackgroundColor '#1a0f1f' --splashBackgroundColor '#1a0f1f'
+          npx @capacitor/assets@3.0.5 generate --android --iconBackgroundColor '#1a0f1f' --splashBackgroundColor '#000000'
+      - name: Atur splash hitam polos
+        run: |
+          sed -i 's/#1a0f1f/#000000/' capacitor.config.json
+          python - <<'PY'
+          import re, os
+          d = 'android/app/src/main/res'
+          os.makedirs(d + '/drawable', exist_ok=True)
+          open(d + '/drawable/splash_empty.xml', 'w').write('<?xml version="1.0" encoding="utf-8"?>\n<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle"><solid android:color="#00000000"/><size android:width="1dp" android:height="1dp"/></shape>\n')
+          f = d + '/values/styles.xml'
+          s = open(f).read()
+          m = re.search(r'<style name="AppTheme.NoActionBarLaunch"[^>]*>', s)
+          if m:
+              s = s[:m.end()] + '\n        <item name="windowSplashScreenBackground">#000000</item>\n        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_empty</item>' + s[m.end():]
+              open(f, 'w').write(s)
+              print('styles splash diatur')
+          else:
+              print('style splash tidak ditemukan, dilewati')
+          PY
+      - name: Aktifkan mode jendela kecil (PiP)
+        run: |
+          F=android/app/src/main/java/com/drakoo/app/MainActivity.java
+          cp "$F" /tmp/MainActivity.orig
+          cat > "$F" <<'JAVA'
+          package com.drakoo.app;
+
+          import android.app.PictureInPictureParams;
+          import android.content.res.Configuration;
+          import android.os.Build;
+          import android.os.Bundle;
+          import android.util.Rational;
+          import android.webkit.JavascriptInterface;
+          import com.getcapacitor.BridgeActivity;
+
+          public class MainActivity extends BridgeActivity {
+              private boolean pipReady = false;
+
+              public class PipBridge {
+                  @JavascriptInterface
+                  public void setPip(boolean on) {
+                      pipReady = on;
+                  }
+              }
+
+              @Override
+              public void onCreate(Bundle savedInstanceState) {
+                  super.onCreate(savedInstanceState);
+                  getBridge().getWebView().addJavascriptInterface(new PipBridge(), "DrakooNative");
+              }
+
+              @Override
+              public void onUserLeaveHint() {
+                  super.onUserLeaveHint();
+                  if (pipReady && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                      try {
+                          PictureInPictureParams params = new PictureInPictureParams.Builder()
+                                  .setAspectRatio(new Rational(9, 16))
+                                  .build();
+                          enterPictureInPictureMode(params);
+                      } catch (Exception e) {
+                      }
+                  }
+              }
+
+              @Override
+              public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode, Configuration newConfig) {
+                  super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig);
+                  getBridge().getWebView().evaluateJavascript("window.__pip&&window.__pip(" + isInPictureInPictureMode + ")", null);
+              }
+          }
+          JAVA
+          sed -i '0,/<activity/s//<activity android:supportsPictureInPicture="true"/' android/app/src/main/AndroidManifest.xml
+          grep -c 'supportsPictureInPicture' android/app/src/main/AndroidManifest.xml
       - run: npx cap sync android
-      - run: chmod +x android/gradlew && cd android && ./gradlew assembleDebug
+      - name: Build APK
+        run: |
+          chmod +x android/gradlew
+          cd android
+          ./gradlew assembleDebug || {
+            echo "Build dengan PiP gagal. Mengulang tanpa PiP."
+            cp /tmp/MainActivity.orig app/src/main/java/com/drakoo/app/MainActivity.java
+            sed -i 's/ android:supportsPictureInPicture="true"//' app/src/main/AndroidManifest.xml
+            ./gradlew assembleDebug
+          }
       - uses: actions/upload-artifact@v4
         with:
           name: drakoo-apk
