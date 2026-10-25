@@ -190,11 +190,54 @@ textarea.sbox{resize:none}
 details{background:var(--sf);border-radius:14px;padding:14px;margin-top:10px}
 summary{font-weight:600;cursor:pointer}
 details p{color:var(--mu);margin-top:8px;font-size:14px;line-height:1.5}
+#menub{font-size:26px;line-height:1;padding:0 6px;color:#fff}
+.pmenu{position:absolute;top:calc(50px + env(safe-area-inset-top,0px));right:12px;background:rgba(24,12,30,.97);border-radius:16px;padding:6px;z-index:7;display:none;min-width:230px;box-shadow:0 8px 30px rgba(0,0,0,.5)}
+.pmenu.show{display:block}
+.pmenu button{display:block;width:100%;text-align:left;padding:13px 14px;border-radius:10px;font-size:15px;font-weight:600;color:#fff}
+.pmenu button:active{background:rgba(255,255,255,.12)}
+.pmenu b{color:#ffb23e}
+.onb{position:absolute;inset:0;background:var(--bg);z-index:50;display:none;flex-direction:column;padding:calc(36px + env(safe-area-inset-top,0px)) 20px calc(16px + env(safe-area-inset-bottom,0px));overflow-y:auto}
+.onb.show{display:flex}
+.onb .btn,.onb .back{flex:none}
+.og{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.og .chip{font-size:16px;padding:11px 18px}
+.poster .tag{max-width:calc(100% - 62px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lbl{position:absolute;top:8px;right:8px;background:var(--ac);color:#2a1330;font-size:10px;font-weight:800;padding:2px 7px;border-radius:7px;text-shadow:none;letter-spacing:.3px}
+.lbl.hot{background:#ff5a5f;color:#fff}
+.lbl.new{background:#2fbf71;color:#04210f}
+.lbl.end{background:#64748b;color:#fff}
+.car .lbl{top:12px;right:12px;font-size:11px}
+.ep.lock{opacity:.45}
+.ep.lock::after{content:"🔒";position:absolute;top:1px;right:2px;font-size:9px}
+.ann{display:flex;align-items:center;gap:10px;background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:10px 12px;margin-top:12px;font-size:14px;line-height:1.4}
+.ann>button:first-child{flex:1;text-align:left;color:var(--tx)}
+.ann .x{color:var(--mu);font-size:16px;padding:2px 6px}
+.ann.upd{border-color:var(--ac)}
+.offb{display:none;background:#b45309;color:#fff;padding:8px 14px;font-size:13px;font-weight:600;align-items:center;justify-content:space-between;gap:10px}
+.offb.show{display:flex}
+.offb button{background:rgba(255,255,255,.2);border-radius:8px;padding:4px 10px;font-weight:600;color:#fff}
+.neterr{position:absolute;inset:0;background:rgba(0,0,0,.88);z-index:5;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:30px;text-align:center;color:#fff}
+.neterr.show{display:flex}
+.neterr .btn{flex:none;min-width:200px}
+.neterr span{color:#ccc;font-size:14px}
+.skip{position:absolute;left:16px;bottom:70px;z-index:3;background:rgba(0,0,0,.6);color:#fff;border-radius:18px;padding:9px 16px;font-size:14px;font-weight:600;display:none}
+.chip.sm{font-size:12px;padding:5px 11px}
+.gl{color:var(--mu);font-size:12px;align-self:center;margin-right:2px;flex:none}
+.av.fr_gold{box-shadow:0 0 0 3px var(--bg),0 0 0 6px #ffb23e}
+.av.fr_fire{box-shadow:0 0 0 3px var(--bg),0 0 0 6px #ff5a5f,0 0 0 9px #ffb23e}
+.bar2{height:8px;background:var(--ln);border-radius:4px;overflow:hidden;margin-top:6px}
+.bar2 i{display:block;height:100%;background:var(--ac);border-radius:4px}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.sg .stat b{font-size:22px}
+input[type=time].sbox{width:auto;margin:0 0 0 10px;padding:8px 12px;border-radius:12px}
+.ep.dl{border-color:var(--ac)}
+.pip nav,.pip .ptop,.pip .side,.pip .pmenu,.pip .skip,.pip .offb,.pip #epl{display:none!important}
 </style>
 </head>
 <body>
 <div id="intro" aria-hidden="true"><div class="lg"><svg viewBox="0 0 100 100" width="120" height="120"><rect width="100" height="100" rx="25" fill="#ffb23e"/><polygon points="38,28 38,72 74,50" fill="#1a0f1f"/></svg><b>Drakoo</b></div></div>
 <div id="app">
+  <div class="offb" id="offb"><span>Tidak ada koneksi internet</span><button id="offr">Coba lagi</button></div>
   <main id="main"></main>
   <nav>
     <button data-t="home" class="on"><svg class="ni" viewBox="0 0 24 24"><path class="o" d="M12 3 3.5 9.5v10.7h5.6v-6h5.8v6h5.6V9.5z"/><path class="s" d="M12 3 3.5 9.5v10.7h5.6v-6h5.8v6h5.6V9.5z"/></svg>Beranda</button>
@@ -205,17 +248,27 @@ details p{color:var(--mu);margin-top:8px;font-size:14px;line-height:1.5}
   </nav>
   <section class="sheet" id="detail"></section>
   <section class="sheet" id="sub"></section>
+  <section class="onb" id="onb"></section>
   <input type="file" id="avin" accept="image/*" hidden>
   <section class="player" id="player">
     <div class="scene" id="scene"><div class="big" id="big"></div><div class="ln" id="ln"></div></div>
-    <video id="vid" playsinline></video><input type="file" id="pick" accept="video/*" hidden>
+    <video id="vid" playsinline></video><video id="pre" preload="auto" muted playsinline style="display:none"></video>
+    <button class="skip" id="skipb">Lewati pembuka ›</button>
+    <div class="neterr" id="neterr"><div style="font-size:40px">📡</div><b style="font-size:19px">Video tidak bisa dimuat</b><span>Periksa koneksi internetmu, lalu coba lagi.</span><button class="btn" id="retry">Coba lagi</button><button class="btn alt" id="neterrx">Tutup</button></div><input type="file" id="pick" accept="video/*" hidden>
     <div class="pause" id="pause">⏸</div>
     <div class="spd" id="spd">⏩ 2x</div>
-    <div class="ptop"><div class="bar"><i id="fill"></i></div><div><button id="close" aria-label="Tutup">✕ Tutup</button><span id="pt"></span></div></div>
+    <div class="ptop"><div class="bar"><i id="fill"></i></div><div><button id="close" aria-label="Tutup">✕ Tutup</button><span id="pt"></span><button id="menub" aria-label="Menu lainnya">⋯</button></div></div>
     <div class="side">
       <button id="like" aria-label="Suka"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><small id="lc">0</small></button>
       <button id="save" aria-label="Favorit"><svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg><small id="sc">0</small></button>
       <button id="shb" aria-label="Bagikan"><svg viewBox="0 0 24 24" style="transform:scaleX(-1)"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></svg><small id="shc">0</small></button>
+    </div>
+    <div class="pmenu" id="pmenu">
+      <button id="epb">☰ Daftar episode</button>
+      <button id="spb">⚡ Kecepatan: <b id="spl">1x</b></button>
+      <button id="ccb">💬 Subtitle: <b id="ccl">mati</b></button>
+      <button id="dlb">⬇ Unduh episode ini</button>
+      <button id="vf">📁 Video dari HP</button>
     </div>
     <div class="epl" id="epl"><div class="eph"><b id="eplt"></b><button id="epx" aria-label="Tutup daftar episode">✕</button></div><div class="eps" id="epg"></div></div>
     
@@ -238,7 +291,8 @@ var D=[
 {id:9,tr:0,p:1.5e6,t:"Putri yang Dibuang",g:"Balas Dendam",e:66,c:["#e11d48","#3b0a1a"],s:"Diusir dari rumah keluarga, ia kembali lima tahun kemudian sebagai pemilik gedung tempat mereka bekerja.",l:["Kalian lupa siapa aku?","Aku tidak datang untuk meminta maaf.","Mulai besok, aturannya aku yang buat."]}
 ];
 var G=["Semua","Romansa","Balas Dendam","Komedi","Keluarga","Misteri"];
-var S={tab:"home",g:"Semua",list:[],likes:{},prog:{},rem:{},spd:1,cc:false,theme:"auto",rg:"Semua",pf:{}};
+var S={tab:"home",g:"Semua",list:[],likes:{},prog:{},rem:{},spd:1,cc:false,theme:"auto",rg:"Semua",pf:{},fg:[],onb:0,dq:"auto",an:true,dis:{},dr:{on:false,t:"20:00"},epn:true,sec:0,best:0,gc:{},bgm:0,frame:"",accent:"",fs:"Semua",fl:"Semua"};
+var APP_VERSION="1.3.0";
 var APP_URL=""; /* isi link aplikasi/website kalau sudah ada, ikut terkirim saat bagikan */
 try{var r=localStorage.getItem("drakoo");if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
 S.tab="home";S.q="";S.g="Semua";S.rg="Semua";
@@ -246,14 +300,98 @@ function sv(){try{localStorage.setItem("drakoo",JSON.stringify(S))}catch(e){}}
 var $=function(i){return document.getElementById(i)};
 function tt(s){var t=$("toast");t.textContent=s;t.style.display="block";clearTimeout(tt.h);tt.h=setTimeout(function(){t.style.display="none"},1800)}
 function bg(d,m){if(!d.i)return "linear-gradient(160deg,"+d.c[0]+","+d.c[1]+")";
- if(m=="p")return "#0a0610 url("+d.i+") 40% 50%/cover no-repeat";
- return "linear-gradient(transparent 30%,rgba(0,0,0,.88)),url("+d.i+") "+(m=="h"?"center 20%":"40% 50%")+"/cover no-repeat"}
+ if(m=="p")return "url('"+d.i+"') 40% 50%/cover no-repeat,linear-gradient(160deg,"+d.c[0]+","+d.c[1]+")";
+ return "linear-gradient(transparent 30%,rgba(0,0,0,.88)),url('"+d.i+"') "+(m=="h"?"center 20%":"40% 50%")+"/cover no-repeat,linear-gradient(160deg,"+d.c[0]+","+d.c[1]+")"}
 function ttl(d){return d.t}
-function card(d){return '<button class="card" data-d="'+d.id+'"><div class="poster" style="background:'+bg(d)+'"><span class="tag">'+d.g+'</span>'+ttl(d)+'</div><small>'+d.e+' episode</small></button>'}
+function card(d){return '<button class="card" data-d="'+d.id+'"><div class="poster" style="background:'+bg(d)+'"><span class="tag">'+d.g+'</span>'+ttl(d)+lbl(d)+'</div><small>'+epTxt(d)+'</small></button>'}
 function esc(x){return String(x).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;")}
 function today(){return new Date().toDateString()}
 function yest(){return new Date(Date.now()-864e5).toDateString()}
-function resHtml(){var q=(S.q||"").trim().toLowerCase();if(!q)return rankHtml();var L=D.filter(function(d){return !q||(d.t+" "+d.g+" "+d.s).toLowerCase().indexOf(q)>-1});return L.length?'<div class="grid">'+L.map(card).join("")+'</div>':'<p class="empty">Tidak ada drama untuk "'+esc(S.q)+'".<br>Coba kata lain, misalnya nama genre.</p>'}
+function resHtml(){var q=(S.q||"").trim().toLowerCase();if(!q)return rankHtml();var L=D.filter(function(d){return !q||(d.t+" "+d.g+" "+d.s).toLowerCase().indexOf(q)>-1&&passF(d)});return fltHtml()+(L.length?'<div class="grid">'+L.map(card).join("")+'</div>':'<p class="empty">Tidak ada drama untuk "'+esc(S.q)+'".<br>Coba kata lain atau ubah filter.</p>')}
+/* KATALOG ONLINE: daftar drama dibaca dari catalog.json di GitHub, jadi menambah drama tidak perlu build APK lagi.
+   Kosongkan CATALOG_URL kalau mau memakai daftar bawaan saja. */
+var CATALOG_URL="https://raw.githubusercontent.com/zarr30961-a11y/Apk/main/catalog.json";
+var VBASE="",ANN=null,APPI=null,COLS=[];
+var D0=D.slice(),BY={},CAT={n:D.length,ts:0,err:"",src:"bawaan aplikasi"};
+function dr(id){return BY[id]}
+function reindex(){BY={};D.forEach(function(d){BY[d.id]=d})}
+reindex();
+function genres(){G=["Semua"];D.forEach(function(d){if(G.indexOf(d.g)<0)G.push(d.g)});if(G.indexOf(S.g)<0)S.g="Semua";if(G.indexOf(S.rg)<0)S.rg="Semua"}
+function cl(x){return String(x==null?"":x).replace(/[<>"]/g,"").replace(/&/g," dan ").replace(/\s+/g," ").trim()}
+function ci(x,f){x=parseInt(x,10);return isNaN(x)?f:x}
+function cc(x,f){return /^#[0-9a-fA-F]{3,8}$/.test(x)?x:f}
+function cv(u){u=String(u||"").trim();return /^https?:\/\/[^\s'"<>]+$/.test(u)?u:""}
+function cu(u){u=String(u||"").trim();if(!u)return"";var a;try{a=new URL(u,CATALOG_URL).href}catch(e){return""}return /^https?:\/\/[^\s'"()<>]+$/.test(a)?a:""}
+function cvp(u){u=String(u||"").trim();if(!u)return"";if(/^https?:\/\//.test(u))return cv(u);if(VBASE&&/^[A-Za-z0-9_\-\/.{}]+$/.test(u))return cv(VBASE+"/"+u.replace(/^\/+/,""));return""}
+function cd(x){return /^\d{4}-\d{2}-\d{2}$/.test(String(x||""))?String(x):""}
+function nd(o){var id=ci(o.id,-1),t=cl(o.t);if(id<0||!t)return null;var b=D0.filter(function(x){return x.id==id})[0]||{};
+ var l=(Array.isArray(o.l)?o.l:[]).map(cl).filter(Boolean).slice(0,3);while(l.length<3)l.push("");
+ var c=Array.isArray(o.c)&&o.c.length>1?[cc(o.c[0],"#a78bfa"),cc(o.c[1],"#1b1038")]:["#a78bfa","#1b1038"];
+ return{id:id,t:t,g:cl(o.g)||"Lainnya",e:Math.max(1,Math.min(500,ci(o.e,1))),s:cl(o.s),p:Number(o.p)>0?Number(o.p):0,tr:ci(o.tr,0),c:c,l:l,q:cl(o.q),i:cu(o.i)||b.i||"",v:cvp(o.v),vl:cvp(o.vl),sub:cv(o.sub),lb:cl(o.lb).slice(0,8).toUpperCase(),added:cd(o.added),intro:Math.max(0,Math.min(60,ci(o.intro,0))),st:/^(tamat|berjalan)$/.test(String(o.st||"").toLowerCase())?String(o.st).toLowerCase():"",rel:(o.rel&&cd(o.rel.from))?{from:o.rel.from,first:Math.max(0,ci(o.rel.first,1)),per_day:Math.max(1,ci(o.rel.per_day,1))}:null}}
+function applyCat(j){if(!j||!Array.isArray(j.dramas))return false;var seen={},a=[];VBASE=cv(j.video_base).replace(/\/+$/,"");
+ j.dramas.forEach(function(o){var d=nd(o||{});if(d&&!seen[d.id]){seen[d.id]=1;a.push(d)}});
+ if(!a.length)return false;D=a;reindex();
+ var cs=[];(Array.isArray(j.soon)?j.soon:[]).forEach(function(o){o=o||{};var id=ci(o.id,-1),t=cl(o.t),at=String(o.at||"");if(id>=0&&t&&/^\d{4}-\d{2}-\d{2}$/.test(at))cs.push({id:id,t:t,g:cl(o.g)||"Lainnya",at:at,c:Array.isArray(o.c)&&o.c.length>1?[cc(o.c[0],"#818cf8"),cc(o.c[1],"#1e1b4b")]:["#818cf8","#1e1b4b"]})});
+ CS=cs;
+ var an=j.announce;ANN=(an&&cl(an.text))?{id:cl(an.id)||"a",text:cl(an.text),link:cv(an.link)}:null;
+ var ap=j.app;APPI=(ap&&/^\d+(\.\d+){0,3}$/.test(String(ap.version||"")))?{version:String(ap.version),url:cv(ap.url),note:cl(ap.note)}:null;
+ COLS=(Array.isArray(j.collections)?j.collections:[]).map(function(c){c=c||{};return{title:cl(c.title),ids:(Array.isArray(c.ids)?c.ids:[]).map(function(x){return ci(x,-1)}).filter(function(x){return x>=0})}}).filter(function(c){return c.title&&c.ids.length}).slice(0,6);
+ genres();return true}
+function catTime(ts){try{return new Date(ts).toLocaleString("id-ID",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})}catch(e){return""}}
+function catStatus(){return D.length+" drama · sumber: "+CAT.src+(CAT.ts?" · diperbarui "+catTime(CAT.ts):"")+(CAT.err?'<br><span style="color:var(--hot)">Gagal memperbarui: '+esc(CAT.err)+'. Memakai data terakhir.</span>':"")}
+function loadCache(){try{var c=localStorage.getItem("drakoo_cat");if(c&&applyCat(JSON.parse(c))){CAT={n:D.length,ts:parseInt(localStorage.getItem("drakoo_cat_ts"),10)||0,err:"",src:"tersimpan di HP"}}}catch(e){}}
+function fetchCat(manual){if(!CATALOG_URL){if(manual)tt("Alamat katalog belum diisi");return}
+ fetch(CATALOG_URL+(CATALOG_URL.indexOf("?")<0?"?":"&")+"t="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw new Error("HTTP "+r.status+(r.status==404?" (file tidak ditemukan atau repo masih Private)":""));return r.text()}).then(function(tx){var j;try{j=JSON.parse(tx)}catch(e){throw new Error("format JSON salah, cek tanda koma dan kurung")}
+  if(!applyCat(j))throw new Error("daftar dramas kosong atau salah format");
+  try{localStorage.setItem("drakoo_cat",tx);localStorage.setItem("drakoo_cat_ts",String(Date.now()))}catch(e){}
+  CAT={n:D.length,ts:Date.now(),err:"",src:"online"};syncEpNotifs(false);
+  var ov=$("player").classList.contains("show")||$("detail").classList.contains("show")||$("sub").classList.contains("show");
+  if(!ov&&!(S.tab=="search"&&S.q))render();
+  var el=$("catst");if(el)el.innerHTML=catStatus();
+  if(manual)tt(APPI&&cmpVer(APPI.version,APP_VERSION)>0?"Versi "+APPI.version+" tersedia":"Katalog diperbarui: "+D.length+" drama")}).catch(function(e){CAT.err=String(e&&e.message||e);var el=$("catst");if(el)el.innerHTML=catStatus();if(manual)tt("Gagal memperbarui katalog")})}
+document.addEventListener("visibilitychange",function(){if(!document.hidden&&Date.now()-(CAT.ts||0)>300000)fetchCat(false)});
+/* TOMBOL KEMBALI: setiap layar yang terbuka (detail, pemutar, menu, dll.) dicatat di riwayat browser,
+   jadi tombol Kembali Android menutup layar teratas dulu sebelum keluar dari aplikasi. */
+var OV=[],PEND=null;
+function pushOv(n){OV.push(n);try{history.pushState({d:OV.length},"","#"+n)}catch(e){}}
+function hideOv(n){
+ if(n=="player"){saveProg();clearInterval(P.h);$("vid").pause();P.v=false;$("epl").classList.remove("show");$("pmenu").classList.remove("show");$("player").classList.remove("show");wakeOff();render()}
+ else if(n=="epl")$("epl").classList.remove("show");
+ else if(n=="menu")$("pmenu").classList.remove("show");
+ else if(n=="detail"){$("detail").classList.remove("show");render()}
+ else if(n=="sub"){$("sub").classList.remove("show");render()}
+ else if(n=="tab")goTab("home")}
+function closeOv(n,after){var k=OV.lastIndexOf(n);if(k<0){hideOv(n);if(after)after();return}PEND=after||null;
+ try{history.go(-(OV.length-k))}catch(e){while(OV.length>k)hideOv(OV.pop());if(PEND){var f=PEND;PEND=null;f()}}}
+function swapOv(from,to){var k=OV.lastIndexOf(from);if(k<0)return false;
+ if(from=="sub")$("sub").classList.remove("show");else if(from=="menu")$("pmenu").classList.remove("show");
+ OV[k]=to;try{history.replaceState({d:k+1},"","#"+to)}catch(e){}return true}
+window.addEventListener("popstate",function(e){var d=(e.state&&e.state.d)||0;while(OV.length>d)hideOv(OV.pop());if(PEND){var f=PEND;PEND=null;f()}});
+/* LAYAR TETAP MENYALA + STATUS BAR DISEMBUNYIKAN saat menonton */
+var WL=null;
+function sbar(){return window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.StatusBar}
+function wakeOn(){pipFlag(true);try{if(navigator.wakeLock&&!WL)navigator.wakeLock.request("screen").then(function(l){WL=l;l.addEventListener("release",function(){WL=null})}).catch(function(){})}catch(e){}
+ try{var b=sbar();if(b)b.hide().catch(function(){})}catch(e){}}
+function wakeOff(){pipFlag(false);try{if(WL){WL.release();WL=null}}catch(e){}
+ try{var b=sbar();if(b)b.show().catch(function(){})}catch(e){}}
+document.addEventListener("visibilitychange",function(){if(!document.hidden&&$("player").classList.contains("show"))wakeOn()});
+/* REKOMENDASI "UNTUKMU" */
+var GE={"Romansa":"💕","Balas Dendam":"🔥","Komedi":"😂","Keluarga":"👨‍👩‍👧","Misteri":"🕵️","Horor":"👻"};
+function gscore(){var s={};function add(g,w){if(g)s[g]=(s[g]||0)+w}
+ (S.fg||[]).forEach(function(g){add(g,4)});
+ (S.hist||[]).forEach(function(id,i){var d=dr(id);if(d)add(d.g,Math.max(1,3-i*.3))});
+ Object.keys(S.likes||{}).forEach(function(k){if(S.likes[k]){var d=dr(parseInt(k,10));if(d)add(d.g,2)}});
+ (S.list||[]).forEach(function(id){var d=dr(id);if(d)add(d.g,3)});
+ Object.keys(S.prog||{}).forEach(function(k){var d=dr(+k);if(d)add(d.g,1)});
+ return s}
+function forYouHtml(){var gs=gscore(),tops=Object.keys(gs).sort(function(a,b){return gs[b]-gs[a]});if(!tops.length)return"";
+ var seen=S.hist||[];function sc(d){return (gs[d.g]||0)*100+(seen.indexOf(d.id)<0?50:0)+Math.log10(d.p+1)}
+ var L=D.filter(function(d){return gs[d.g]>0}).sort(function(a,b){return sc(b)-sc(a)}).slice(0,8);if(!L.length)return"";
+ return '<h2>Untukmu</h2><p style="color:var(--mu);font-size:13px;margin:-4px 0 10px">Berdasarkan genre '+esc(tops.slice(0,2).join(" dan "))+'</p><div class="row">'+L.map(card).join("")+'</div>'}
+var ONB=[];
+function showOnb(){ONB=(S.fg||[]).slice();var gl=G.filter(function(g){return g!="Semua"});
+ $("onb").innerHTML='<h1>Pilih genre favoritmu</h1><p style="color:var(--mu);margin-top:8px;line-height:1.5">Pilih satu atau lebih. Pilihan ini dipakai untuk menyusun rekomendasi "Untukmu" di Beranda.</p><div class="og">'+gl.map(function(g){return '<button class="chip'+(ONB.indexOf(g)>-1?' on':'')+'" data-og="'+g+'">'+(GE[g]||"🎬")+' '+g+'</button>'}).join("")+'</div><div style="flex:1;min-height:24px"></div><button class="btn" id="onbok" style="width:100%">Lanjut</button><button class="back" id="onbskip" style="width:100%;text-align:center;margin-top:6px">Lewati</button>';
+ $("onb").classList.add("show")}
 var ICO={
  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>',
  gear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="6.6"/><circle cx="12" cy="12" r="2.6"/><circle cx="12" cy="12" r="9" stroke-width="2.8" stroke-dasharray="2.6 4.7"/></svg>',
@@ -264,28 +402,134 @@ var ICO={
  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
  crown:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16M4.5 8l3.8 4.2L12 5l3.7 7.2L19.5 8l-1.3 8.5H5.8z"/></svg>',
  help:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 14v-2a7 7 0 0 1 14 0v2"/><rect x="3.5" y="13" width="3.5" height="6" rx="1.2" fill="currentColor"/><rect x="17" y="13" width="3.5" height="6" rx="1.2" fill="currentColor"/><path d="M19 19c0 2-2 2.8-5 2.8"/></svg>',
+ dl:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7.5 11 12 15.5 16.5 11M5 19h14"/></svg>',
+ stat:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="12" width="4" height="8" rx="1"/><rect x="10" y="5" width="4" height="15" rx="1"/><rect x="16" y="9" width="4" height="11" rx="1"/></svg>',
  chev:'<svg class="ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>'};
 function pfi(){return Object.assign({name:"Penonton Drakoo",user:"penonton",bio:"Pecinta drama pendek ❤️",img:""},S.pf||{})}
-function avHtml(pf,id,cam){return '<div class="av"'+(id?' id="'+id+'"':'')+(pf.img?' style="background-image:url('+pf.img+')"':'')+'>'+(pf.img?'':ICO.user)+(cam?'<button class="cam" id="camb" aria-label="Ganti foto">'+ICO.cam+'</button>':'')+'</div>'}
+function avHtml(pf,id,cam){return '<div class="av'+(/^fr_[a-z]+$/.test(String(S.frame||""))?' '+S.frame:'')+'"'+(id?' id="'+id+'"':'')+(pf.img?' style="background-image:url('+pf.img+')"':'')+'>'+(pf.img?'':ICO.user)+(cam?'<button class="cam" id="camb" aria-label="Ganti foto">'+ICO.cam+'</button>':'')+'</div>'}
 function mrow(ic,t,sub,act){return '<button class="mr" data-m="'+act+'"><span class="mi">'+ICO[ic]+'</span><div><b>'+t+'</b><small>'+sub+'</small></div>'+ICO.chev+'</button>'}
-function unfinished(){return Object.keys(S.prog).map(function(k){return{d:D[+k],r:S.prog[k]}}).filter(function(o){return o.d&&o.r&&!(o.r.p>=95&&o.r.n>=o.d.e)}).sort(function(a,b){return b.r.ts-a.r.ts})}
-function openSub(title,html){$("sub").innerHTML='<button class="back" id="bk2">‹ Kembali</button><h1 style="margin-bottom:6px">'+title+'</h1>'+html;$("sub").classList.add("show");$("sub").scrollTop=0}
-function goTab(t){S.tab=t;S.q="";$("sub").classList.remove("show");document.querySelectorAll("nav button").forEach(function(b){b.classList.toggle("on",b.dataset.t==t)});render()}
+function unfinished(){return Object.keys(S.prog).map(function(k){return{d:dr(+k),r:S.prog[k]}}).filter(function(o){return o.d&&o.r&&!(o.r.p>=95&&o.r.n>=o.d.e)}).sort(function(a,b){return b.r.ts-a.r.ts})}
+function openSub(title,html){if(OV.indexOf("sub")<0)pushOv("sub");$("sub").innerHTML='<button class="back" id="bk2">‹ Kembali</button><h1 style="margin-bottom:6px">'+title+'</h1>'+html;$("sub").classList.add("show");$("sub").scrollTop=0}
+function goTab(t){if(t!="home"&&OV.indexOf("tab")<0)pushOv("tab");S.tab=t;S.q="";$("sub").classList.remove("show");document.querySelectorAll("nav button").forEach(function(b){b.classList.toggle("on",b.dataset.t==t)});render()}
 function openEdit(){var pf=pfi();openSub("Profil Saya",'<div class="pr" style="margin-top:14px">'+avHtml(pf,"avp",false)+'<button class="btn alt" id="avb" style="flex:none;padding:10px 16px">Ganti foto</button></div><label class="lb" for="fn">Nama</label><input class="sbox fld" id="fn" maxlength="24" value="'+esc(pf.name)+'"><label class="lb" for="fu">Username</label><input class="sbox fld" id="fu" maxlength="20" value="'+esc(pf.user)+'"><label class="lb" for="fb">Bio</label><textarea class="sbox fld" id="fb" maxlength="90" rows="3">'+esc(pf.bio)+'</textarea><button class="btn" id="fsave" style="width:100%;margin-top:20px">Simpan perubahan</button>')}
-function openWatch(){var a=unfinished();openSub("Daftar Tonton Saya",a.length?'<div class="grid" style="margin-top:14px">'+a.map(function(o){var n=o.r.p>=95?o.r.n+1:o.r.n,pc=o.r.p>=95?0:Math.round(o.r.p);return '<button class="card" data-r="'+o.d.id+'"><div class="poster" style="background:'+bg(o.d)+'"><span class="tag">EP '+n+'</span>'+o.d.t+'<i class="pb"><b style="width:'+pc+'%"></b></i></div><small>Lanjut EP '+n+'</small></button>'}).join("")+'</div>':'<p class="empty">Belum ada drama yang sedang kamu tonton.<br>Mulai nonton dari Beranda.</p>')}
-function openHist(){var a=(S.hist||[]).map(function(i){return D[i]});openSub("Riwayat Tontonan",a.length?'<div class="grid" style="margin-top:14px">'+a.map(card).join("")+'</div>':'<p class="empty">Belum ada riwayat.<br>Drama yang kamu tonton akan muncul di sini.</p>')}
+function openWatch(){var a=unfinished();openSub("Daftar Tonton Saya",a.length?'<div class="grid" style="margin-top:14px">'+a.map(function(o){var n=o.r.p>=95?o.r.n+1:o.r.n,pc=o.r.p>=95?0:Math.round(o.r.p);return '<button class="card" data-r="'+o.d.id+'"><div class="poster" style="background:'+bg(o.d)+'"><span class="tag">EP '+n+'</span>'+o.d.t+'<i class="pb"><b style="width:'+pc+'%"></b></i></div><small>'+(n>avail(o.d)?'Menunggu':'Lanjut')+' EP '+n+'</small></button>'}).join("")+'</div>':'<p class="empty">Belum ada drama yang sedang kamu tonton.<br>Mulai nonton dari Beranda.</p>')}
+function openHist(){var a=(S.hist||[]).map(function(i){return dr(i)}).filter(Boolean);openSub("Riwayat Tontonan",a.length?'<div class="grid" style="margin-top:14px">'+a.map(card).join("")+'</div>':'<p class="empty">Belum ada riwayat.<br>Drama yang kamu tonton akan muncul di sini.</p>')}
 function openHelp(){var q=[["Bagaimana pindah episode?","Geser layar ke atas untuk episode berikutnya, geser ke bawah untuk kembali ke episode sebelumnya."],["Bagaimana menjeda video?","Ketuk layar sekali untuk memunculkan tombol, lalu ketuk lagi untuk menjeda atau melanjutkan."],["Bagaimana menonton lebih cepat?","Tekan dan tahan layar. Video berjalan 2x lebih cepat sampai kamu melepas jari."],["Bagaimana memberi suka?","Ketuk layar dua kali atau lebih dengan cepat, atau tekan ikon hati di sisi kanan."],["Di mana data saya disimpan?","Hanya di HP ini. Menghapus data aplikasi akan menghapus riwayat, daftar, dan profilmu."]];openSub("Pusat Bantuan",q.map(function(x){return '<details><summary>'+x[0]+'</summary><p>'+x[1]+'</p></details>'}).join(""))}
-function openSettings(){openSub("Pengaturan",'<h2>Tema</h2><div class="chips" style="margin-top:0">'+[["auto","Otomatis"],["light","Terang"],["dark","Gelap"]].map(function(x){return '<button class="chip'+((S.theme||"auto")==x[0]?' on':'')+'" data-th="'+x[0]+'">'+x[1]+'</button>'}).join("")+'</div><h2>Data</h2><button class="btn alt" id="rst" style="width:100%">Hapus semua data</button>')}
+function openSettings(){openSub("Pengaturan",'<h2>Tema</h2><div class="chips" style="margin-top:0">'+[["auto","Otomatis"],["light","Terang"],["dark","Gelap"]].map(function(x){return '<button class="chip'+((S.theme||"auto")==x[0]?' on':'')+'" data-th="'+x[0]+'">'+x[1]+'</button>'}).join("")+'</div><h2>Pemutaran</h2>'+playHtml()+'<h2>Genre favorit</h2><p style="color:var(--mu);font-size:14px">'+esc((S.fg||[]).join(", ")||"Belum dipilih")+'</p><button class="btn alt" id="onbb" style="width:100%;margin-top:10px">Ubah genre favorit</button><h2>Katalog drama</h2><p id="catst" style="color:var(--mu);font-size:14px;line-height:1.5">'+catStatus()+'</p><button class="btn alt" id="catb" style="width:100%;margin-top:10px">Perbarui katalog</button>'+moreSettingsHtml()+'<h2>Data</h2><button class="btn alt" id="rst" style="width:100%">Hapus semua data</button>')}
 function applyTheme(){var r=document.documentElement;if(S.theme=="light"||S.theme=="dark")r.setAttribute("data-theme",S.theme);else r.removeAttribute("data-theme")}
+function cmpVer(a,b){a=String(a).split(".");b=String(b).split(".");for(var i=0;i<4;i++){var x=+a[i]||0,y=+b[i]||0;if(x!=y)return x>y?1:-1}return 0}
+function ymd(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function avail(d){if(!d.rel)return d.e;var f=new Date(d.rel.from+"T00:00:00"),t=new Date();t=new Date(t.getFullYear(),t.getMonth(),t.getDate());var days=Math.floor((t-f)/864e5);if(days<0)return 0;return Math.min(d.e,d.rel.first+days*d.rel.per_day)}
+function epDate(d,n){if(!d.rel)return"";if(n<=d.rel.first)return d.rel.from;var k=Math.ceil((n-d.rel.first)/d.rel.per_day),f=new Date(d.rel.from+"T00:00:00");f.setDate(f.getDate()+k);return ymd(f)}
+function isNew(d){if(!d.added)return false;var a=new Date(d.added+"T00:00:00"),dd=(Date.now()-a)/864e5;return dd>=0&&dd<=14}
+function lbl(d){var t=d.lb||(isNew(d)?"BARU":"");if(!t)return"";var c=t=="HOT"?"hot":t=="BARU"?"new":t=="TAMAT"?"end":"";return '<span class="lbl '+c+'">'+t+'</span>'}
+function epTxt(d){var a=avail(d);return (a<d.e?a+'/'+d.e:d.e)+' episode'}
+function stOf(d){return d.st||((d.rel&&avail(d)<d.e)?"berjalan":"tamat")}
+function dqLow(){var q=S.dq||"auto";if(q=="low")return true;if(q=="high")return false;var c=navigator.connection;if(!c)return false;return !!c.saveData||c.type=="cellular"||/(^|-)(2g|3g)/.test(c.effectiveType||"")}
+function annHtml(){var h="";
+ if(ANN&&!(S.dis||{})["a_"+ANN.id])h+='<div class="ann">'+(ANN.link?'<button data-open="'+ANN.link+'">📢 '+ANN.text+'</button>':'<button style="cursor:default">📢 '+ANN.text+'</button>')+'<button class="x" data-dis="a_'+ANN.id+'" aria-label="Tutup">✕</button></div>';
+ if(APPI&&cmpVer(APPI.version,APP_VERSION)>0&&!(S.dis||{})["v_"+APPI.version])h+='<div class="ann upd"><button '+(APPI.url?'data-open="'+APPI.url+'"':'style="cursor:default"')+'>🚀 Versi '+APPI.version+' tersedia'+(APPI.note?' · '+APPI.note:'')+(APPI.url?' · <b>Unduh</b>':'')+'</button><button class="x" data-dis="v_'+APPI.version+'" aria-label="Tutup">✕</button></div>';
+ return h}
+function colHtml(){return COLS.map(function(c){var L=c.ids.map(dr).filter(Boolean);return L.length?'<h2>'+c.title+'</h2><div class="row">'+L.map(card).join("")+'</div>':""}).join("")}
+function showOff(){var on=navigator.onLine===false;$("offb").classList.toggle("show",on)}
+window.addEventListener("offline",showOff);window.addEventListener("online",function(){showOff();fetchCat(false)});
+function chipsSet(key,opts,cur){return '<div class="chips" style="margin-top:0">'+opts.map(function(o){return '<button class="chip'+(String(cur)==o[0]?' on':'')+'" data-set="'+key+':'+o[0]+'">'+o[1]+'</button>'}).join("")+'</div>'}
+function playHtml(){return '<p style="color:var(--mu);font-size:14px;margin:0 0 8px">Kualitas video</p>'+chipsSet("dq",[["auto","Otomatis"],["low","Hemat data"],["high","Terbaik"]],S.dq||"auto")+'<p style="color:var(--mu);font-size:13px;margin:8px 0 14px;line-height:1.5">Hemat data memakai video kualitas rendah (jika drama menyediakannya) dan tidak memuat episode berikutnya lebih dulu. Otomatis memilih hemat data saat memakai data seluler.</p><p style="color:var(--mu);font-size:14px;margin:0 0 8px">Putar episode berikutnya otomatis</p>'+chipsSet("an",[["1","Hidup"],["0","Mati"]],S.an===false?"0":"1")}
+function moreSettingsHtml(){return '<h2>Pengingat nonton harian</h2>'+chipsSet("dr",[["1","Hidup"],["0","Mati"]],(S.dr&&S.dr.on)?"1":"0")+'<div style="display:flex;align-items:center;margin-top:10px;font-size:14px;color:var(--mu)">Jam pengingat<input class="sbox" type="time" id="drt" value="'+esc((S.dr&&S.dr.t)||"20:00")+'"></div><h2>Notifikasi episode baru</h2><p style="color:var(--mu);font-size:13px;margin:0 0 8px;line-height:1.5">Untuk drama di Daftar Saya yang episodenya tayang bertahap.</p>'+chipsSet("epn",[["1","Hidup"],["0","Mati"]],S.epn===false?"0":"1")+'<h2>Cadangan data</h2><button class="btn alt" id="bkb" style="width:100%">Cadangkan &amp; pulihkan</button><h2>Tentang</h2><p style="color:var(--mu);font-size:14px;line-height:1.5">Drakoo versi '+APP_VERSION+'</p><button class="btn alt" id="updb" style="width:100%;margin-top:10px">Cek pembaruan aplikasi</button>'}
+function passF(d){var a=S.fs||"Semua",b=S.fl||"Semua";if(a!="Semua"&&stOf(d)!=a.toLowerCase())return false;if(b=="≤40"&&d.e>40)return false;if(b=="41–60"&&(d.e<41||d.e>60))return false;if(b==">60"&&d.e<=60)return false;return true}
+function fltHtml(){var a=S.fs||"Semua",b=S.fl||"Semua";
+ return '<div class="chips" style="margin-top:10px"><span class="gl">Status</span>'+["Semua","Tamat","Berjalan"].map(function(x){return '<button class="chip sm'+(x==a?' on':'')+'" data-fs="'+x+'">'+x+'</button>'}).join("")+'</div><div class="chips" style="margin-top:6px"><span class="gl">Episode</span>'+["Semua","≤40","41–60",">60"].map(function(x){return '<button class="chip sm'+(x==b?' on':'')+'" data-fl="'+x+'">'+x+'</button>'}).join("")+'</div>'}
+var BADGES=[
+ {k:"pemula",t:"Pemula",d:"Tonton 1 episode",ok:function(){return (S.eps||0)>=1}},
+ {k:"penikmat",t:"Penikmat",d:"Tonton 20 episode",ok:function(){return (S.eps||0)>=20}},
+ {k:"maraton",t:"Maraton",d:"Tonton 3 episode dalam sehari",ok:function(){return !!S.bgm}},
+ {k:"setia",t:"Setia",d:"Absen 7 hari berturut-turut",ok:function(){return (S.sev||0)>=1}},
+ {k:"kolektor",t:"Kolektor",d:"Simpan 5 drama ke Daftar Saya",ok:function(){return S.list.length>=5}}];
+var RW=[
+ {k:"ac_pink",t:"Warna aplikasi Pink",need:1,type:"accent",v:"#ff6fa8"},
+ {k:"fr_gold",t:"Bingkai foto Emas",need:2,type:"frame"},
+ {k:"ac_blue",t:"Warna aplikasi Biru",need:3,type:"accent",v:"#5aa9ff"},
+ {k:"fr_fire",t:"Bingkai foto Api",need:4,type:"frame"},
+ {k:"ac_green",t:"Warna aplikasi Hijau",need:5,type:"accent",v:"#3ccf7f"}];
+function nbadge(){return BADGES.filter(function(b){return b.ok()}).length}
+function applyAccent(){var r=RW.filter(function(x){return x.k==S.accent})[0],el=document.documentElement;if(r&&nbadge()>=r.need)el.style.setProperty("--ac",r.v);else el.style.removeProperty("--ac")}
+function rwHtml(){var n=nbadge();
+ return '<h2>Lencana ('+n+'/'+BADGES.length+')</h2>'+BADGES.map(function(b){return '<div class="mis"><div>'+b.t+'<small>'+b.d+'</small></div><span>'+(b.ok()?'🏅':'🔒')+'</span></div>'}).join("")+
+ '<h2>Hadiah</h2><p style="color:var(--mu);font-size:14px;margin-bottom:10px">Kumpulkan lencana untuk membuka bingkai foto dan warna aplikasi.</p>'+
+ RW.map(function(r){var open=n>=r.need,on=(r.type=="frame"?S.frame:S.accent)==r.k;return '<div class="mis"><div>'+r.t+'<small>'+(open?(on?'Sedang dipakai':'Terbuka'):'Butuh '+r.need+' lencana')+'</small></div>'+(open?'<button class="chip'+(on?' on':'')+'" data-rw="'+r.k+'">'+(on?'Lepas':'Pakai')+'</button>':'<span>🔒</span>')+'</div>'}).join("")}
+function fmtTime(sec){sec=Math.round(sec||0);var h=Math.floor(sec/3600),m=Math.floor(sec%3600/60);return h?h+" j "+m+" m":(m?m+" m":sec+" d")}
+function openStats(){var gc=S.gc||{},ks=Object.keys(gc).sort(function(a,b){return gc[b]-gc[a]}),mx=ks.length?gc[ks[0]]:1,td=today(),cur=(S.last==td||S.last==yest())?(S.streak||0):0;
+ openSub("Statistik Nonton",'<div class="sg"><div class="stat"><b>'+fmtTime(S.sec)+'</b><span>Total waktu menonton</span></div><div class="stat"><b>'+(S.eps||0)+'</b><span>Episode ditonton</span></div><div class="stat"><b>'+cur+' hari</b><span>Streak saat ini</span></div><div class="stat"><b>'+(S.best||0)+' hari</b><span>Streak terpanjang</span></div></div>'+
+ '<h2>Genre terfavorit</h2>'+(ks.length?ks.slice(0,5).map(function(g){return '<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:14px"><span>'+(GE[g]||"🎬")+' '+esc(g)+'</span><span style="color:var(--mu)">'+gc[g]+' episode</span></div><div class="bar2"><i style="width:'+Math.round(gc[g]/mx*100)+'%"></i></div></div>'}).join(""):'<p class="empty" style="margin-top:20px">Belum ada data.<br>Mulai nonton dulu dari Beranda.</p>')+
+ '<h2>Lencana</h2><p style="color:var(--mu);font-size:14px">'+nbadge()+' dari '+BADGES.length+' lencana terkumpul.</p>')}
+function ln(){return window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.LocalNotifications}
+function askPerm(cb){var L=ln();if(!L)return false;L.requestPermissions().then(function(r){if(r&&r.display&&r.display!=="granted"){tt("Izinkan notifikasi di pengaturan HP");return}cb(L)}).catch(function(){});return true}
+function setDaily(){S.dr=S.dr||{on:false,t:"20:00"};var L=ln();if(!L)return false;
+ try{L.cancel({notifications:[{id:900}]}).catch(function(){})}catch(e){}
+ if(S.dr.on){var a=(S.dr.t||"20:00").split(":");askPerm(function(L){L.schedule({notifications:[{id:900,title:"Drakoo",body:"Waktunya nonton! Ada drama seru menunggumu.",schedule:{on:{hour:+a[0],minute:+a[1]},allowWhileIdle:true}}]}).catch(function(){})})}
+ return true}
+function syncEpNotifs(ask){var L=ln();if(!L)return;
+ var items=[],c=0;
+ if(S.epn!==false)S.list.forEach(function(id){var d=dr(id);if(!d||!d.rel)return;var m={};for(var n=avail(d)+1;n<=d.e&&n<=avail(d)+30;n++){var ds=epDate(d,n);(m[ds]=m[ds]||[]).push(n)}
+  Object.keys(m).sort().slice(0,10).forEach(function(ds){var at=new Date(ds+"T09:00:00");if(at<=new Date())return;var e=m[ds];items.push({id:10000+(d.id%1000)*100+(c++%100),title:d.t,body:(e.length>1?"Episode "+e[0]+"–"+e[e.length-1]+" tayang":"Episode "+e[0]+" tayang")+" hari ini.",schedule:{at:at}})})});
+ var old=S.nids||[];
+ function go(L){try{if(old.length)L.cancel({notifications:old.map(function(i){return{id:i}})}).catch(function(){});S.nids=items.map(function(x){return x.id});sv();if(items.length)L.schedule({notifications:items}).catch(function(){})}catch(e){}}
+ if(!items.length&&!old.length)return;
+ if(ask)askPerm(go);else L.checkPermissions().then(function(r){if(r&&r.display==="granted")go(L)}).catch(function(){})}
+var DLK={},OBJ={},DLP={};
+function idb(cb){var rq;try{rq=indexedDB.open("drakoo",1)}catch(e){return cb(e)}rq.onupgradeneeded=function(){rq.result.createObjectStore("dl")};rq.onsuccess=function(){cb(null,rq.result)};rq.onerror=function(){cb(rq.error||new Error("idb"))}}
+function dbPut(k,v,cb){idb(function(e,db){if(e)return cb(e);var tx=db.transaction("dl","readwrite");tx.objectStore("dl").put(v,k);tx.oncomplete=function(){db.close();cb(null)};tx.onerror=tx.onabort=function(){cb(tx.error||new Error("put"))}})}
+function dbGet(k,cb){idb(function(e,db){if(e)return cb(e);var rq=db.transaction("dl").objectStore("dl").get(k);rq.onsuccess=function(){db.close();cb(null,rq.result)};rq.onerror=function(){cb(rq.error)}})}
+function dbDel(k,cb){idb(function(e,db){if(e)return cb&&cb(e);var tx=db.transaction("dl","readwrite");tx.objectStore("dl").delete(k);tx.oncomplete=function(){db.close();cb&&cb(null)}})}
+function dbList(cb){idb(function(e,db){if(e)return cb(e);var out={},rq=db.transaction("dl").objectStore("dl").openCursor();rq.onsuccess=function(){var c=rq.result;if(c){out[c.key]=(c.value&&c.value.size)||0;c.continue()}else{db.close();cb(null,out)}};rq.onerror=function(){cb(rq.error)}})}
+function loadDl(){try{dbList(function(e,o){if(!e&&o){DLK=o;updDl()}})}catch(e){}}
+function fmtB(n){return n>=1048576?(n/1048576).toFixed(1).replace(".",",")+" MB":Math.max(1,Math.round(n/1024))+" KB"}
+function remoteSrc(d,n){var q=(dqLow()&&d.vl)?d.vl:d.v;return q?q.replace("{n}",n):""}
+function dlLabel(){var k=P.d?P.d.id+"-"+P.n:"";return DLP[k]!=null?"⬇ Mengunduh "+Math.round(DLP[k]*100)+"%":DLK[k]?"✓ Sudah diunduh (ketuk untuk hapus)":"⬇ Unduh episode ini"}
+function dlSummary(){var ks=Object.keys(DLK),tot=0;ks.forEach(function(k){tot+=DLK[k]});return ks.length+" episode · "+fmtB(tot)}
+function updDl(){var b=$("dlb");if(b&&P.d)b.textContent=dlLabel();var st=$("dlst");if(st)st.textContent=dlSummary()}
+function dlDel(k){dbDel(k);delete DLK[k];if(OBJ[k]){try{URL.revokeObjectURL(OBJ[k])}catch(e){}delete OBJ[k]}}
+function dlClear(){Object.keys(DLK).forEach(dlDel);DLK={}}
+function dlEp(d,n,done){var k=d.id+"-"+n,src=remoteSrc(d,n);
+ if(!src){tt("Episode ini belum punya video");return}
+ if(n>avail(d)){tt("Episode "+n+" belum tayang");return}
+ if(DLK[k]){tt("Sudah diunduh");if(done)done();return}
+ if(DLP[k]!=null)return;
+ try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
+ DLP[k]=0;updDl();
+ fetch(src).then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);var tot=+r.headers.get("content-length")||0,type=r.headers.get("content-type")||"video/mp4",rd=r.body&&r.body.getReader?r.body.getReader():null;
+  if(!rd)return r.blob();var ch=[],got=0;
+  function pump(){return rd.read().then(function(x){if(x.done)return;ch.push(x.value);got+=x.value.length;DLP[k]=tot?Math.min(.99,got/tot):.5;updDl();return pump()})}
+  return pump().then(function(){return new Blob(ch,{type:type})})}).then(function(bl){
+  dbPut(k,{blob:bl,size:bl.size,ts:Date.now()},function(e){delete DLP[k];if(e){tt("Penyimpanan penuh atau ditolak");updDl();return}DLK[k]=bl.size;tt("Episode "+n+" selesai diunduh");updDl();if(done)done()})
+ }).catch(function(e){delete DLP[k];updDl();tt("Gagal mengunduh. Cek koneksi, dan pastikan server video mengizinkan CORS.")})}
+function openDl(){var by={};Object.keys(DLK).forEach(function(k){var a=k.split("-");(by[+a[0]]=by[+a[0]]||[]).push(+a[1])});
+ var ids=Object.keys(by).map(Number).filter(function(id){return dr(id)});
+ openSub("Unduhan",'<p id="dlst" style="color:var(--mu);margin-top:6px">'+dlSummary()+'</p>'+(ids.length?ids.map(function(id){var d=dr(id),ns=by[id].sort(function(a,b){return a-b}),sz=0;ns.forEach(function(n){sz+=DLK[id+"-"+n]});return '<div class="mis"><div>'+d.t+'<small>EP '+ns.join(", ")+' · '+fmtB(sz)+'</small></div><button class="chip" data-dd="'+id+'">Hapus</button></div>'}).join("")+'<button class="btn alt" data-dd="all" style="width:100%;margin-top:14px">Hapus semua unduhan</button>':'<p class="empty">Belum ada episode yang diunduh.<br>Buka halaman drama, lalu ketuk "Unduh".</p>'))}
+/* CADANGAN DATA (tanpa server): kode teks yang bisa disalin dan ditempel di HP lain */
+var BK=["list","likes","hist","prog","rem","spd","cc","theme","pf","fg","onb","eps","streak","last","sev","today","day","sec","best","gc","bgm","frame","accent","dq","an","dr","epn","dis","fs","fl"];
+function bkCode(){var o={};BK.forEach(function(k){o[k]=S[k]});return "DRAKOO1:"+btoa(unescape(encodeURIComponent(JSON.stringify({app:"drakoo",v:1,d:o}))))}
+function bkRestore(code){try{code=String(code||"").trim();if(code.indexOf("DRAKOO1:")!==0)return "Kode tidak dikenali";
+ var j=JSON.parse(decodeURIComponent(escape(atob(code.slice(8)))));if(!j||j.app!=="drakoo"||!j.d||typeof j.d!=="object")return "Kode tidak valid";var d=j.d;
+ var chk={list:1,hist:1,fg:1,likes:0,prog:0,rem:0,gc:0,dis:0,pf:0,dr:0};
+ for(var k in chk){var v=d[k];if(v===undefined)continue;if(chk[k]?!Array.isArray(v):(typeof v!=="object"||v===null||Array.isArray(v)))return "Kode rusak ("+k+")"}
+ BK.forEach(function(k){if(d[k]!==undefined)S[k]=d[k]});
+ if(S.pf&&S.pf.img&&!/^data:image\/jpeg;base64,[A-Za-z0-9+\/=]+$/.test(S.pf.img))S.pf.img="";
+ if(!/^fr_[a-z]+$/.test(String(S.frame||"")))S.frame="";
+ sv();applyTheme();applyAccent();return ""}catch(e){return "Kode rusak atau terpotong"}}
+function openBackup(){openSub("Cadangan Data",'<p style="color:var(--mu);line-height:1.5;margin-top:6px">Simpan kode cadangan di tempat aman (catatan atau chat ke diri sendiri). Saat ganti HP, tempel kodenya di sini untuk memulihkan favorit, riwayat, profil, dan pengaturan. Episode yang diunduh tidak ikut dicadangkan.</p><button class="btn" id="bkcopy" style="width:100%;margin-top:14px">Salin kode cadangan</button><button class="btn alt" id="bkshare" style="width:100%;margin-top:10px">Bagikan kode cadangan</button><h2>Pulihkan</h2><textarea class="sbox fld" id="bkt" rows="4" placeholder="Tempel kode cadangan di sini"></textarea><button class="btn alt" id="bkrest" style="width:100%;margin-top:12px">Pulihkan dari kode</button><p id="bkmsg" style="color:var(--hot);font-size:14px;margin-top:10px"></p>')}
+/* MODE JENDELA KECIL (PiP): ditangani oleh MainActivity.java yang dibuat saat build */
+function pipFlag(on){try{window.DrakooNative&&DrakooNative.setPip(!!on)}catch(e){}}
+window.__pip=function(b){document.body.classList.toggle("pip",!!b)};
 function trh(d){var n=d.tr||0;return n>0?'<span class="tr up">▲'+n+'</span>':n<0?'<span class="tr dn">▼'+(-n)+'</span>':'<span class="tr">–</span>'}
-function rankHtml(){var g=S.rg||"Semua",L=D.slice().sort(function(a,b){return b.p-a.p}).filter(function(d){return g=="Semua"||d.g==g}).slice(0,10);
- return '<div class="chips" style="margin-top:0">'+G.map(function(x){return '<button class="chip'+(x==g?' on':'')+'" data-rg="'+x+'">'+x+'</button>'}).join("")+'</div><h2>Top minggu ini</h2>'+
- L.map(function(d,i){return '<button class="rkr" data-d="'+d.id+'"><span class="rn'+(i<3?' t3':'')+'">'+(i+1)+'</span><div class="poster mini" style="background:'+bg(d)+'"></div><div class="ri"><b>'+d.t+'</b><small>'+d.g+' · '+d.e+' episode · '+(d.p/1e6).toFixed(1).replace(".",",")+' jt</small></div>'+trh(d)+'</button>'}).join("")}
-function nextOf(id){var d=D[id],r=S.prog[id];if(!r)return{n:1,rs:null};if(r.p>=95)return r.n<d.e?{n:r.n+1,rs:null}:{n:1,rs:null};return{n:r.n,rs:r}}
+function rankHtml(){var g=S.rg||"Semua",L=D.slice().sort(function(a,b){return b.p-a.p}).filter(function(d){return (g=="Semua"||d.g==g)&&passF(d)}).slice(0,10);
+ return '<div class="chips" style="margin-top:0">'+G.map(function(x){return '<button class="chip'+(x==g?' on':'')+'" data-rg="'+x+'">'+x+'</button>'}).join("")+'</div>'+fltHtml()+'<h2>Top minggu ini</h2>'+
+ L.map(function(d,i){return '<button class="rkr" data-d="'+d.id+'"><span class="rn'+(i<3?' t3':'')+'">'+(i+1)+'</span><div class="poster mini" style="background:'+bg(d)+'"></div><div class="ri"><b>'+d.t+'</b><small>'+d.g+' · '+d.e+' episode · '+(d.p/1e6).toFixed(1).replace(".",",")+' jt</small></div>'+trh(d)+'</button>'}).join("")+(L.length?"":'<p class="empty">Tidak ada drama yang cocok dengan filter.</p>')}
+function nextOf(id){var d=dr(id),r=S.prog[id];if(!r)return{n:1,rs:null};if(r.p>=95){if(r.n<d.e){var nn=r.n+1;return nn>avail(d)?{n:r.n,rs:null,wait:nn}:{n:nn,rs:null}}return{n:1,rs:null}}return{n:r.n,rs:r}}
 function resume(id){var x=nextOf(id);play(id,x.n,x.rs)}
-function cwHtml(){var a=Object.keys(S.prog).map(function(k){return{d:D[+k],r:S.prog[k]}}).filter(function(o){return o.d&&o.r&&!(o.r.p>=95&&o.r.n>=o.d.e)}).sort(function(a,b){return b.r.ts-a.r.ts}).slice(0,8);
+function cwHtml(){var a=Object.keys(S.prog).map(function(k){return{d:dr(+k),r:S.prog[k]}}).filter(function(o){return o.d&&o.r&&!(o.r.p>=95&&o.r.n>=o.d.e)}).sort(function(a,b){return b.r.ts-a.r.ts}).slice(0,8);
  if(!a.length)return "";
- return '<h2>Lanjut nonton</h2><div class="row">'+a.map(function(o){var n=o.r.p>=95?o.r.n+1:o.r.n,pc=o.r.p>=95?0:Math.round(o.r.p);return '<button class="card" data-r="'+o.d.id+'"><div class="poster" style="background:'+bg(o.d)+'"><span class="tag">EP '+n+'</span>'+o.d.t+'<i class="pb"><b style="width:'+pc+'%"></b></i></div><small>Lanjut EP '+n+'</small></button>'}).join("")+'</div>'}
+ return '<h2>Lanjut nonton</h2><div class="row">'+a.map(function(o){var n=o.r.p>=95?o.r.n+1:o.r.n,pc=o.r.p>=95?0:Math.round(o.r.p);return '<button class="card" data-r="'+o.d.id+'"><div class="poster" style="background:'+bg(o.d)+'"><span class="tag">EP '+n+'</span>'+o.d.t+'<i class="pb"><b style="width:'+pc+'%"></b></i></div><small>'+(n>avail(o.d)?'Menunggu':'Lanjut')+' EP '+n+'</small></button>'}).join("")+'</div>'}
 function simHtml(d){var a=D.filter(function(x){return x.id!=d.id&&x.g==d.g}),b=D.filter(function(x){return x.id!=d.id&&x.g!=d.g}).sort(function(p,q){return q.p-p.p});
  return '<h2>Mirip dengan ini</h2><div class="row">'+a.concat(b).slice(0,5).map(card).join("")+'</div>'}
 var MON=["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
@@ -297,9 +541,9 @@ function remind(c,on){try{var LN=window.Capacitor&&Capacitor.Plugins&&Capacitor.
  else LN.cancel({notifications:[{id:c.id}]}).catch(function(){})}catch(e){}}
 function share(d){var txt="Nonton “"+d.t+"” di Drakoo: drama pendek "+d.g.toLowerCase()+", "+d.e+" episode. "+APP_URL;
  if(navigator.share){navigator.share({title:d.t,text:txt}).catch(function(){})}else{window.open("https://wa.me/?text="+encodeURIComponent(txt),"_blank")}}
-function track(id){S.hist=(S.hist||[]).filter(function(x){return x!=id});S.hist.unshift(id);S.hist=S.hist.slice(0,10);S.eps=(S.eps||0)+1;if(S.day!=today()){S.day=today();S.today=0}S.today++;sv()}
+function track(id){S.hist=(S.hist||[]).filter(function(x){return x!=id});S.hist.unshift(id);S.hist=S.hist.slice(0,10);S.eps=(S.eps||0)+1;if(S.day!=today()){S.day=today();S.today=0}S.today++;if(S.today>=3)S.bgm=1;var dg=dr(id);if(dg){S.gc=S.gc||{};S.gc[dg.g]=(S.gc[dg.g]||0)+1}sv()}
 function carHtml(){var T=D.slice().sort(function(a,b){return b.p-a.p}).slice(0,10),x="",dt="";
- T.forEach(function(d,i){x+='<button class="hero" data-d="'+d.id+'" style="background:'+bg(d,"h")+'"><span class="rk">🔥 #'+(i+1)+' Terpopuler</span><b>'+d.t+'</b><span>'+d.g+' · '+d.e+' episode · '+(d.p/1e6).toFixed(1).replace(".",",")+' jt ditonton</span></button>';dt+='<i'+(i?'':' class="on"')+'></i>'});
+ T.forEach(function(d,i){x+='<button class="hero" data-d="'+d.id+'" style="background:'+bg(d,"h")+'"><span class="rk">🔥 #'+(i+1)+' Terpopuler</span>'+lbl(d)+'<b>'+d.t+'</b><span>'+d.g+' · '+epTxt(d)+' · '+(d.p/1e6).toFixed(1).replace(".",",")+' jt ditonton</span></button>';dt+='<i'+(i?'':' class="on"')+'></i>'});
  return '<div class="car" id="car">'+x+'</div><div class="dots" id="dots">'+dt+'</div>'}
 var CT;
 function initCar(){clearInterval(CT);var c=$("car");if(!c)return;
@@ -311,12 +555,12 @@ function initCar(){clearInterval(CT);var c=$("car");if(!c)return;
 function render(){
  var m=$("main"),h="";
  if(S.tab=="home"){
-  var f=D[S.id0||0];
+  
   var L=D.filter(function(d){return S.g=="Semua"||d.g==S.g});
-  h='<div class="top"><h1>Drakoo</h1></div>'+
+  h='<div class="top"><h1>Drakoo</h1></div>'+annHtml()+
   carHtml()+
   '<div class="chips">'+G.map(function(g){return '<button class="chip'+(g==S.g?' on':'')+'" data-g="'+g+'">'+g+'</button>'}).join("")+'</div>'+
-  cwHtml()+'<h2>Sedang ramai</h2><div class="row">'+L.map(card).join("")+'</div>'+csHtml()+
+  cwHtml()+forYouHtml()+'<h2>Sedang ramai</h2><div class="row">'+L.map(card).join("")+'</div>'+colHtml()+csHtml()+
   '<h2>Baru tayang</h2><div class="row">'+L.slice().reverse().map(card).join("")+'</div>'+
   (L.length?'':'<p class="empty">Belum ada drama untuk genre ini.</p>');
  }else if(S.tab=="search"){
@@ -328,13 +572,13 @@ function render(){
   '<button class="btn" id="ci"'+(done?' disabled':'')+' style="width:100%">'+(done?'Sudah absen hari ini':'Absen hari ini')+'</button>'+
   '<h2>Misi hari ini</h2><div class="mis"><div>Absen harian<small>'+(done?'Selesai':'Belum selesai')+'</small></div><span>'+(done?'✅':'⬜')+'</span></div>'+
   '<div class="mis"><div>Tonton 3 episode<small>'+Math.min(te,3)+' / 3</small></div><span>'+(te>=3?'✅':'⬜')+'</span></div>'+
-  '<h2>Lencana</h2><div class="mis"><div>Pemburu Drama<small>Streak 7 hari</small></div><span>🏆 × '+(S.sev||0)+'</span></div>';
+  rwHtml();
  }else if(S.tab=="my"){
   var pf=pfi(),np=unfinished().length;
   h='<div class="ph"><div class="brand"><svg viewBox="0 0 100 100" width="30" height="30"><rect width="100" height="100" rx="25" fill="#ffb23e"/><polygon points="38,28 38,72 74,50" fill="#1a0f1f"/></svg><b>Drakoo</b></div><div style="display:flex"><button class="ib" data-go="search" aria-label="Cari">'+ICO.search+'</button><button class="ib" id="setb" aria-label="Pengaturan">'+ICO.gear+'</button></div></div>'+
   '<div class="pr">'+avHtml(pf,"",true)+'<button class="pi" id="edtb"><div><b>'+esc(pf.name)+'</b><span>@'+esc(pf.user)+'</span><p>'+esc(pf.bio)+'</p></div>'+ICO.chev+'</button></div>'+
-  '<div class="st">'+[[S.eps||0,"Ditonton"],[np,"Daftar Tonton"],[S.list.length,"Favorit"],[S.sev||0,"Lencana"]].map(function(x){return '<div><b>'+x[0]+'</b><span>'+x[1]+'</span></div>'}).join("")+'</div>'+
-  '<div class="mc">'+mrow("user","Profil Saya","Ubah nama, bio, dan foto profil","edit")+mrow("bm","Daftar Tonton Saya","Drama yang sedang kamu tonton","watch")+mrow("heart","Drama Favorit Saya","Koleksi drama favorit kamu","fav")+mrow("clock","Riwayat Tontonan","Drama yang pernah kamu tonton","hist")+'</div>'+
+  '<div class="st">'+[[S.eps||0,"Ditonton"],[np,"Daftar Tonton"],[S.list.length,"Favorit"],[nbadge(),"Lencana"]].map(function(x){return '<div><b>'+x[0]+'</b><span>'+x[1]+'</span></div>'}).join("")+'</div>'+
+  '<div class="mc">'+mrow("user","Profil Saya","Ubah nama, bio, dan foto profil","edit")+mrow("bm","Daftar Tonton Saya","Drama yang sedang kamu tonton","watch")+mrow("heart","Drama Favorit Saya","Koleksi drama favorit kamu","fav")+mrow("clock","Riwayat Tontonan","Drama yang pernah kamu tonton","hist")+mrow("stat","Statistik Nonton","Jam tonton, genre, dan streak","stat")+mrow("dl","Unduhan","Episode untuk ditonton offline","dl")+'</div>'+
   '<div class="mc">'+mrow("crown","Langganan Premium","Nikmati fitur eksklusif tanpa iklan","prem")+mrow("help","Pusat Bantuan","Panduan dan pertanyaan umum","help")+'</div>';
  }else{
   var L2=D.filter(function(d){return S.list.indexOf(d.id)>-1});
@@ -342,53 +586,60 @@ function render(){
  }
  m.innerHTML=h;initCar();
 }
-function openDetail(id){
- var d=D[id],x=nextOf(id),r=S.prog[id],lab=r?(x.rs?'▶ Lanjut EP '+x.n:(r.p>=95&&r.n>=d.e?'▶ Tonton ulang':'▶ Lanjut EP '+x.n)):'▶ Tonton EP 1',h='<button class="back" id="bk">‹ Kembali</button><div class="dh"><div class="poster" style="background:'+bg(d)+'">'+ttl(d)+'</div><div><h1 style="font-size:22px">'+d.t+'</h1><p>'+d.g+' · '+d.e+' episode</p><p>'+d.s+'</p>'+(d.q?'<p style="font-style:italic">“'+d.q+'”</p>':'')+'</div></div>'+
- '<div class="btns"><button class="btn" '+(r?'data-r="'+id+'"':'data-p="'+id+'-1"')+'>'+lab+'</button><button class="btn alt" data-s="'+id+'">'+(S.list.indexOf(id)>-1?'✓ Tersimpan':'+ Simpan')+'</button><button class="btn alt" data-sh="'+id+'" style="flex:none" aria-label="Bagikan">📤</button></div>'+simHtml(d)+'<h2>Episode</h2><div class="eps">';
- for(var i=1;i<=d.e;i++)h+='<button class="ep" data-p="'+id+'-'+i+'">'+i+'</button>';
- $("detail").innerHTML=h+'</div>';$("detail").classList.add("show");$("detail").scrollTop=0;
+function openDetail(id,np){
+ var d=dr(id),x=nextOf(id),r=S.prog[id],lab=r?(x.wait?'▶ Putar ulang EP '+x.n:x.rs?'▶ Lanjut EP '+x.n:(r.p>=95&&r.n>=d.e?'▶ Tonton ulang':'▶ Lanjut EP '+x.n)):'▶ Tonton EP 1',h='<button class="back" id="bk">‹ Kembali</button><div class="dh"><div class="poster" style="background:'+bg(d)+'">'+ttl(d)+'</div><div><h1 style="font-size:22px">'+d.t+'</h1><p>'+d.g+' · '+epTxt(d)+'</p>'+(d.rel?'<p style="color:var(--ac);font-size:13px">Tayang '+d.rel.per_day+' episode tiap hari'+(x.wait?' · EP '+x.wait+' tayang '+dlab(epDate(d,x.wait)):'')+'</p>':'')+'<p>'+d.s+'</p>'+(d.q?'<p style="font-style:italic">“'+d.q+'”</p>':'')+'</div></div>'+
+ '<div class="btns"><button class="btn" '+(r?'data-r="'+id+'"':'data-p="'+id+'-1"')+'>'+lab+'</button><button class="btn alt" data-s="'+id+'">'+(S.list.indexOf(id)>-1?'✓ Tersimpan':'+ Simpan')+'</button><button class="btn alt" data-sh="'+id+'" style="flex:none" aria-label="Bagikan">📤</button></div>'+(d.v?'<button class="btn alt" data-dl="'+id+'" style="width:100%;margin-bottom:6px">⬇ Unduh 5 episode berikutnya</button>':'')+simHtml(d)+'<h2>Episode</h2><div class="eps">';
+ for(var i=1,av=avail(d);i<=d.e;i++)h+='<button class="ep'+(i>av?' lock':'')+(DLK[id+"-"+i]?' dl':'')+'" data-p="'+id+'-'+i+'">'+i+'</button>';
+ $("detail").innerHTML=h+'</div>';$("detail").classList.add("show");$("detail").scrollTop=0;if(!np&&OV.indexOf("detail")<0)pushOv("detail")
 }
 var P={d:null,n:1,p:0,pause:false,li:0,h:null,v:false},LOCAL={};
-function srcOf(d,n){var k=d.id+"-"+n;if(LOCAL[k])return LOCAL[k];return d.v?d.v.replace("{n}",n):""}
+function srcOf(d,n){var k=d.id+"-"+n;if(LOCAL[k])return LOCAL[k];if(OBJ[k])return OBJ[k];var q=(dqLow()&&d.vl)?d.vl:d.v;return q?q.replace("{n}",n):""}
 function fmt(n){return n>=1000?(n/1000).toFixed(1).replace(".",",")+" rb":String(n)}
 function side(){var k=P.d.id+"-"+P.n,lk=!!S.likes[k],sd=S.list.indexOf(P.d.id)>-1,b=8000+P.d.id*2300+P.n*173;
  $("lc").textContent=fmt(b+(lk?1:0));$("like").classList.toggle("on",lk);
  $("sc").textContent=fmt(Math.round(b*0.027)+(sd?1:0));$("save").classList.toggle("on",sd);
- $("shc").textContent=fmt(Math.round(b*0.009))}
+ $("shc").textContent=fmt(Math.round(b*0.009));$("spl").textContent=baseRate()+"x";$("ccl").textContent=S.cc?"aktif":"mati"}
 function baseRate(){return S.spd||1}
 function setTrack(){var v=$("vid");[].slice.call(v.querySelectorAll("track")).forEach(function(t){t.remove()});if(S.cc&&P.v&&P.d.sub&&!LOCAL[P.d.id+"-"+P.n]){var t=document.createElement("track");t.kind="subtitles";t.srclang="id";t.label="Indonesia";t.src=P.d.sub.replace("{n}",P.n);t.default=true;v.appendChild(t)}}
 function saveProg(){if(!P.d)return;var v=$("vid"),pc=P.v?(v.duration?v.currentTime/v.duration*100:0):P.p;S.prog[P.d.id]={n:P.n,t:P.v?v.currentTime:0,p:Math.min(100,pc),ts:Date.now()};sv()}
-setInterval(function(){if($("player").classList.contains("show")&&!P.pause)saveProg()},3000);
-function openEpl(){var h="";for(var i=1;i<=P.d.e;i++)h+='<button class="ep'+(i==P.n?' cur':'')+'" data-q="'+i+'">'+i+'</button>';$("eplt").textContent=P.d.t;$("epg").innerHTML=h;$("epl").classList.add("show");var c=$("epg").querySelector(".cur");if(c&&c.scrollIntoView)c.scrollIntoView({block:"center"})}
+setInterval(function(){if($("player").classList.contains("show")&&!P.pause){S.sec=(S.sec||0)+3;saveProg()}},3000);
+function openEpl(np){var h="";for(var i=1;i<=P.d.e;i++)h+='<button class="ep'+(i==P.n?' cur':'')+(i>avail(P.d)?' lock':'')+'" data-q="'+i+'">'+i+'</button>';$("eplt").textContent=P.d.t;$("epg").innerHTML=h;$("epl").classList.add("show");if(!np&&OV.indexOf("epl")<0)pushOv("epl");var c=$("epg").querySelector(".cur");if(c&&c.scrollIntoView)c.scrollIntoView({block:"center"})}
 function sim(){var v=$("vid");P.v=false;v.style.display="none";$("scene").style.display="flex";$("big").innerHTML=P.d.i?"":P.d.t;$("ln").textContent=P.d.l[P.li||0];clearInterval(P.h);P.h=setInterval(tick,100)}
 function play(id,n,rs){
+ var dd=dr(id);if(dd&&n>avail(dd)){tt("Episode "+n+" tayang "+dlab(epDate(dd,n)));return}
+ var kk=id+"-"+n;if(DLK[kk]&&!OBJ[kk]){dbGet(kk,function(e,v){if(!e&&v&&v.blob)OBJ[kk]=URL.createObjectURL(v.blob);else delete DLK[kk];play(id,n,rs)});return}
  if(P.nt)P.nt=false;else track(id);
  if(GS.fast)fast(false);P.rate=baseRate();
- P.d=D[id];P.n=n;P.p=rs?rs.p:0;P.pause=false;P.li=Math.min(2,Math.floor(P.p/34));S.prog[id]={n:n,t:rs?rs.t:0,p:rs?rs.p:0,ts:Date.now()};
+ P.d=dr(id);P.n=n;P.p=rs?rs.p:0;P.pause=false;P.li=Math.min(2,Math.floor(P.p/34));S.prog[id]={n:n,t:rs?rs.t:0,p:rs?rs.p:0,ts:Date.now()};
  clearInterval(P.h);$("fill").style.width=(rs?rs.p:0)+"%";
- if(!S.hint&&!$("player").classList.contains("show")){S.hint=1;sv();tt("Geser ke atas untuk episode berikutnya")}
- $("player").classList.add("show");$("player").classList.toggle("cc",!!S.cc);$("pause").classList.remove("show");
+ if(!$("player").classList.contains("show")){pushOv("player");wakeOn();if(!S.hint){S.hint=1;sv();tt("Geser ke atas untuk episode berikutnya")}}
+ $("player").classList.add("show");$("player").classList.toggle("cc",!!S.cc);$("pause").classList.remove("show");$("neterr").classList.remove("show");$("skipb").style.display="none";
  $("scene").style.background=bg(P.d,"p");$("pt").textContent="";side();showUI();
  var v=$("vid"),src=srcOf(P.d,n);
  if(src){P.v=true;$("scene").style.display="none";v.style.display="block";v.defaultPlaybackRate=P.rate;if(rs&&rs.t>2){var rh=function(){try{v.currentTime=rs.t}catch(e){}v.removeEventListener("loadedmetadata",rh)};v.addEventListener("loadedmetadata",rh)}v.src=src;v.playbackRate=P.rate;setTrack();var pr=v.play();if(pr&&pr.catch)pr.catch(function(){})}
  else{v.pause();v.removeAttribute("src");sim();setTrack()}
 }
-function nextEp(){if(P.n<P.d.e){play(P.d.id,P.n+1);anim(1)}else{clearInterval(P.h);tt("Sampai di episode terakhir")}}
+function nextEp(){if(P.n<P.d.e){if(P.n+1>avail(P.d)){P.pause=true;$("pause").classList.add("show");showUI();tt("Episode "+(P.n+1)+" tayang "+dlab(epDate(P.d,P.n+1)));return}play(P.d.id,P.n+1);anim(1)}else{clearInterval(P.h);tt("Sampai di episode terakhir")}}
 function tick(){
  if(P.pause||P.v)return;P.p+=0.9*(P.rate||1);$("fill").style.width=P.p+"%";
  var li=Math.min(2,Math.floor(P.p/34));if(li!=P.li){P.li=li;$("ln").textContent=P.d.l[li]}
- if(P.p>=100)nextEp();
+ $("skipb").style.display=(P.d.intro>0&&P.p<8)?"block":"none";
+ if(P.p>=100){if(S.an===false){P.pause=true;P.p=100;$("pause").classList.add("show");showUI();tt("Episode selesai")}else nextEp()}
 }
 var UT;
-function showUI(){var p=$("player");p.classList.remove("hide");clearTimeout(UT);if(!P.pause)UT=setTimeout(function(){p.classList.add("hide")},2000)}
+function showUI(){var p=$("player");p.classList.remove("hide");clearTimeout(UT);if(!P.pause)UT=setTimeout(function(){if(OV.indexOf("menu")<0)p.classList.add("hide")},2000)}
 function anim(dx){var p=$("player");p.classList.remove("up","dn");void p.offsetWidth;p.classList.add(dx>0?"up":"dn");clearTimeout(anim.h);anim.h=setTimeout(function(){p.classList.remove("up","dn")},350)}
-function stepEp(dx){var n=P.n+dx;if(n<1||n>P.d.e){tt(n<1?"Ini episode pertama":"Ini episode terakhir");return}play(P.d.id,n);anim(dx)}
+function stepEp(dx){var n=P.n+dx;if(n<1||n>P.d.e){tt(n<1?"Ini episode pertama":"Ini episode terakhir");return}if(n>avail(P.d)){tt("Episode "+n+" tayang "+dlab(epDate(P.d,n)));return}play(P.d.id,n);anim(dx)}
 function toggle(){var v=$("vid");if(P.v){if(v.paused)v.play();else v.pause();P.pause=v.paused}else P.pause=!P.pause;$("pause").classList.toggle("show",P.pause);showUI()}
-$("vid").addEventListener("timeupdate",function(){if(P.v&&this.duration)$("fill").style.width=(this.currentTime/this.duration*100)+"%"});
-$("vid").addEventListener("ended",function(){if(P.v)nextEp()});
-$("vid").addEventListener("error",function(){if(!P.v)return;tt("Video gagal dimuat, pakai tampilan simulasi");sim()});
+var PRE="";
+function preNext(){var v=$("vid");if(!P.v||!v.duration||dqLow())return;var nx=P.n+1;if(nx>P.d.e||nx>avail(P.d)||v.currentTime/v.duration<0.5)return;var u=srcOf(P.d,nx);if(!u||PRE==u)return;PRE=u;var pv=$("pre");pv.src=u;try{pv.load()}catch(e){}}
+$("vid").addEventListener("timeupdate",function(){if(!P.v||!this.duration)return;$("fill").style.width=(this.currentTime/this.duration*100)+"%";var it=P.d.intro;$("skipb").style.display=(it>0&&this.currentTime<it-0.5)?"block":"none";preNext()});
+$("vid").addEventListener("ended",function(){if(!P.v)return;if(S.an===false){P.pause=true;$("pause").classList.add("show");showUI();tt("Episode selesai")}else nextEp()});
+$("vid").addEventListener("error",function(){if(!P.v)return;P.v=false;clearInterval(P.h);P.pause=true;$("skipb").style.display="none";$("neterr").classList.add("show");showUI()});
 function heart(x,y){var p=$("player"),r=p.getBoundingClientRect(),h=document.createElement("div");h.className="hrt";h.textContent="❤️";h.style.left=(x-r.left-24)+"px";h.style.top=(y-r.top-24)+"px";h.style.setProperty("--rot",(Math.random()*40-20)+"deg");p.appendChild(h);setTimeout(function(){h.remove()},900)}
 function tapAct(x,y){var n=Date.now(),p=$("player");
+ if(OV.indexOf("menu")>-1){closeOv("menu");return}
+ if(OV.indexOf("epl")>-1){closeOv("epl");return}
  if(n-(GS.last||0)<300)GS.cnt=(GS.cnt||1)+1;else GS.cnt=1;
  GS.last=n;clearTimeout(GS.tt);
  if(GS.cnt>=2){heart(x,y);var k=P.d.id+"-"+P.n;if(!S.likes[k]){S.likes[k]=true;sv();side()}return}
@@ -397,9 +648,9 @@ function tapAct(x,y){var n=Date.now(),p=$("player");
 var TX=0,TY=0,GS={};
 function fast(on){P.rate=on?2:baseRate();$("vid").playbackRate=P.rate;$("spd").classList.toggle("show",on);GS.fast=on}
 $("player").addEventListener("touchstart",function(e){
- if(e.target.closest("button,.epl")){GS.btn=true;return}
+ if(e.target.closest("button,.epl,.pmenu")){GS.btn=true;return}
  GS.btn=false;GS.moved=false;TX=e.touches[0].clientX;TY=e.touches[0].clientY;clearTimeout(GS.lp);
- GS.lp=setTimeout(function(){if(!GS.moved&&!P.pause)fast(true)},450)},{passive:true});
+ GS.lp=setTimeout(function(){if(!GS.moved&&!P.pause&&OV.indexOf("menu")<0&&OV.indexOf("epl")<0)fast(true)},450)},{passive:true});
 $("player").addEventListener("touchmove",function(e){if(GS.btn||GS.moved)return;var t=e.touches[0];if(Math.abs(t.clientX-TX)>12||Math.abs(t.clientY-TY)>12){GS.moved=true;clearTimeout(GS.lp)}},{passive:true});
 $("player").addEventListener("touchend",function(e){
  if(GS.btn){GS.btn=false;return}
@@ -412,45 +663,70 @@ $("player").addEventListener("touchend",function(e){
 $("player").addEventListener("touchcancel",function(){clearTimeout(GS.lp);if(GS.fast)fast(false)},{passive:true});
 $("player").addEventListener("contextmenu",function(e){e.preventDefault()});
 $("pick").addEventListener("change",function(){var f=this.files[0];if(!f)return;LOCAL[P.d.id+"-"+P.n]=URL.createObjectURL(f);this.value="";P.nt=true;play(P.d.id,P.n)});
+document.addEventListener("change",function(e){if(e.target.id=="drt"){S.dr=S.dr||{on:false};S.dr.t=e.target.value||"20:00";sv();if(S.dr.on)setDaily()}});
 document.addEventListener("input",function(e){if(e.target.id=="q"){S.q=e.target.value;$("res").innerHTML=resHtml()}});
 document.addEventListener("click",function(e){
  var t=e.target.closest("button,.pause,.scene,video");if(!t)return;
  if(t.tagName=="BUTTON"&&$("player").classList.contains("show"))showUI();
- if(t.dataset.t){S.tab=t.dataset.t;S.q="";document.querySelectorAll("nav button").forEach(function(b){b.classList.toggle("on",b==t)});render();return}
+ if(t.dataset.t){var tg=t.dataset.t;if(tg=="home"&&OV.indexOf("tab")>-1){closeOv("tab");return}if(tg!="home"&&OV.indexOf("tab")<0)pushOv("tab");S.tab=tg;S.q="";document.querySelectorAll("nav button").forEach(function(b){b.classList.toggle("on",b==t)});render();return}
  if(t.dataset.g){S.g=t.dataset.g;render();return}
  if(t.dataset.p){var a=t.dataset.p.split("-");play(+a[0],+a[1]);return}
  if(t.dataset.r){resume(+t.dataset.r);return}
- if(t.dataset.q){var q=+t.dataset.q,dr=q>P.n?1:-1;$("epl").classList.remove("show");play(P.d.id,q);anim(dr);return}
+ if(t.dataset.q){var q=+t.dataset.q,dir=q>P.n?1:-1;if(q>avail(P.d)){tt("Episode "+q+" tayang "+dlab(epDate(P.d,q)));return}closeOv("epl");play(P.d.id,q);anim(dir);return}
+ if(t.dataset.fs){S.fs=t.dataset.fs;sv();$("res").innerHTML=resHtml();return}
+ if(t.dataset.fl){S.fl=t.dataset.fl;sv();$("res").innerHTML=resHtml();return}
+ if(t.dataset.rw){var rr=RW.filter(function(x){return x.k==t.dataset.rw})[0];if(rr&&nbadge()>=rr.need){if(rr.type=="frame")S.frame=(S.frame==rr.k?"":rr.k);else S.accent=(S.accent==rr.k?"":rr.k);applyAccent();sv();render()}return}
  if(t.dataset.rg){S.rg=t.dataset.rg;$("res").innerHTML=resHtml();return}
  if(t.dataset.th){S.theme=t.dataset.th;applyTheme();sv();document.querySelectorAll("[data-th]").forEach(function(b){b.classList.toggle("on",b.dataset.th==S.theme)});return}
- if(t.dataset.m){var mm=t.dataset.m;if(mm=="edit")openEdit();else if(mm=="watch")openWatch();else if(mm=="fav")goTab("list");else if(mm=="hist")openHist();else if(mm=="prem")tt("Segera hadir");else openHelp();return}
+ if(t.dataset.m){var mm=t.dataset.m;if(mm=="edit")openEdit();else if(mm=="watch")openWatch();else if(mm=="fav")goTab("list");else if(mm=="hist")openHist();else if(mm=="stat")openStats();else if(mm=="dl")openDl();else if(mm=="prem")tt("Segera hadir");else openHelp();return}
  if(t.dataset.go){goTab(t.dataset.go);return}
+ if(t.dataset.set){var kv=t.dataset.set.split(":"),kk=kv[0],vv=kv[1];if(kk=="an")S.an=vv=="1";else if(kk=="epn"){S.epn=vv=="1";syncEpNotifs(true)}else if(kk=="dr"){S.dr=S.dr||{t:"20:00"};S.dr.on=vv=="1";if(!setDaily())tt("Pengingat tersimpan (aktif di aplikasi Android)")}else S[kk]=vv;sv();document.querySelectorAll('[data-set^="'+kk+':"]').forEach(function(b){b.classList.toggle("on",b===t)});return}
+ if(t.dataset.dis){S.dis=S.dis||{};S.dis[t.dataset.dis]=1;sv();render();return}
+ if(t.dataset.open){try{window.open(t.dataset.open,"_blank")}catch(e){}return}
+ if(t.id=="skipb"){if(P.v)$("vid").currentTime=P.d.intro;else P.p=8;$("skipb").style.display="none";return}
+ if(t.id=="retry"){$("neterr").classList.remove("show");P.nt=true;play(P.d.id,P.n,S.prog[P.d.id]);return}
+ if(t.id=="neterrx"){closeOv("player");return}
+ if(t.id=="offr"){if(navigator.onLine===false)tt("Masih belum ada koneksi");else{showOff();fetchCat(true)}return}
+ if(t.id=="updb"){fetchCat(true);return}
+ if(t.id=="catb"){tt("Memperbarui katalog…");fetchCat(true);return}
  if(t.id=="setb"){openSettings();return}
  if(t.id=="edtb"){openEdit();return}
  if(t.id=="camb"||t.id=="avb"){$("avin").click();return}
- if(t.id=="fsave"){var nm=$("fn").value.trim(),us=$("fu").value.toLowerCase().replace(/[^a-z0-9._]/g,""),bi=$("fb").value.trim();S.pf=Object.assign(pfi(),{name:nm||"Penonton Drakoo",user:us||"penonton",bio:bi});sv();$("sub").classList.remove("show");render();tt("Profil disimpan");return}
- if(t.id=="bk2"){$("sub").classList.remove("show");render();return}
- if(t.dataset.sh){share(D[+t.dataset.sh]);return}
+ if(t.id=="fsave"){var nm=$("fn").value.trim(),us=$("fu").value.toLowerCase().replace(/[^a-z0-9._]/g,""),bi=$("fb").value.trim();S.pf=Object.assign(pfi(),{name:nm||"Penonton Drakoo",user:us||"penonton",bio:bi});sv();closeOv("sub");tt("Profil disimpan");return}
+ if(t.id=="bk2"){closeOv("sub");return}
+ if(t.dataset.sh){share(dr(+t.dataset.sh));return}
  if(t.dataset.rm){var cz=CS.filter(function(z){return z.id==+t.dataset.rm})[0];S.rem[cz.id]=!S.rem[cz.id];sv();remind(cz,S.rem[cz.id]);t.classList.toggle("on",!!S.rem[cz.id]);t.textContent=S.rem[cz.id]?"✓ Diingatkan":"🔔 Ingatkan saya";tt(S.rem[cz.id]?"Pengingat tayang "+dlab(cz.at)+" disimpan":"Pengingat dibatalkan");return}
- if(t.dataset.s){var i=+t.dataset.s,x=S.list.indexOf(i);if(x>-1)S.list.splice(x,1);else S.list.push(i);sv();openDetail(i);tt(x>-1?"Dihapus dari Daftar Saya":"Disimpan ke Daftar Saya");return}
- if(t.dataset.d){$("sub").classList.remove("show");openDetail(+t.dataset.d);return}
- if(t.id=="bk"){$("detail").classList.remove("show");render();return}
- if(t.id=="ci"){var td=today();if(S.last==td)return;S.streak=(S.last==yest()?(S.streak||0):0)+1;S.last=td;if(S.streak%7==0){S.sev=(S.sev||0)+1;tt("Streak 7 hari! Lencana didapat 🏆")}else tt("Absen berhasil. Streak "+S.streak+" hari");sv();render();return}
- if(t.id=="rst"){if(!t.dataset.a){t.dataset.a=1;t.textContent="Ketuk lagi untuk menghapus";return}try{localStorage.removeItem("drakoo")}catch(e){}S.list=[];S.likes={};S.hist=[];S.prog={};S.rem={};S.spd=1;S.cc=false;S.theme="auto";applyTheme();S.eps=0;S.streak=0;S.last="";S.sev=0;S.today=0;S.pf={};sv();$("sub").classList.remove("show");render();tt("Data dihapus");return}
- if(t.id=="close"){saveProg();clearInterval(P.h);$("epl").classList.remove("show");$("vid").pause();P.v=false;$("player").classList.remove("show");render();return}
+ if(t.dataset.s){var i=+t.dataset.s,x=S.list.indexOf(i);if(x>-1)S.list.splice(x,1);else S.list.push(i);sv();syncEpNotifs(x<0);openDetail(i,true);tt(x>-1?"Dihapus dari Daftar Saya":"Disimpan ke Daftar Saya");return}
+ if(t.dataset.d){if(OV[OV.length-1]=="sub"){swapOv("sub","detail");openDetail(+t.dataset.d,true)}else openDetail(+t.dataset.d);return}
+ if(t.id=="bk"){closeOv("detail");return}
+ if(t.id=="ci"){var td=today();if(S.last==td)return;S.streak=(S.last==yest()?(S.streak||0):0)+1;S.last=td;S.best=Math.max(S.best||0,S.streak);if(S.streak%7==0){S.sev=(S.sev||0)+1;tt("Streak 7 hari! Lencana didapat 🏆")}else tt("Absen berhasil. Streak "+S.streak+" hari");sv();render();return}
+ if(t.id=="rst"){if(!t.dataset.a){t.dataset.a=1;t.textContent="Ketuk lagi untuk menghapus";return}try{localStorage.removeItem("drakoo")}catch(e){}S.list=[];S.likes={};S.hist=[];S.prog={};S.rem={};S.spd=1;S.cc=false;S.theme="auto";applyTheme();S.eps=0;S.streak=0;S.last="";S.sev=0;S.today=0;S.pf={};S.fg=[];S.onb=0;dlClear();S.frame="";S.accent="";S.bgm=0;S.sec=0;S.best=0;S.gc={};S.dis={};S.fs="Semua";S.fl="Semua";applyAccent();sv();closeOv("sub");tt("Data dihapus");showOnb();return}
+ if(t.id=="close"){closeOv("player");return}
  if(t.id=="like"){var k=P.d.id+"-"+P.n;S.likes[k]=!S.likes[k];sv();side();return}
- if(t.id=="save"){var id=P.d.id,y=S.list.indexOf(id);if(y>-1)S.list.splice(y,1);else S.list.push(id);sv();side();tt(y>-1?"Dihapus dari Daftar Saya":"Disimpan ke Daftar Saya");return}
- if(t.id=="epb"){openEpl();return}
- if(t.id=="epx"){$("epl").classList.remove("show");return}
+ if(t.id=="save"){var id=P.d.id,y=S.list.indexOf(id);if(y>-1)S.list.splice(y,1);else S.list.push(id);sv();side();syncEpNotifs(y<0);tt(y>-1?"Dihapus dari Daftar Saya":"Disimpan ke Daftar Saya");return}
+ if(t.id=="epb"){swapOv("menu","epl");openEpl(true);return}
+ if(t.id=="epx"){closeOv("epl");return}
  if(t.id=="spb"){var SP=[0.75,1,1.25,1.5,2];S.spd=SP[(SP.indexOf(baseRate())+1)%SP.length];P.rate=S.spd;$("vid").playbackRate=P.rate;sv();side();tt("Kecepatan "+S.spd+"x");return}
  if(t.id=="ccb"){S.cc=!S.cc;sv();$("player").classList.toggle("cc",S.cc);setTrack();side();if(S.cc&&P.v&&!P.d.sub)tt("Subtitle belum tersedia untuk video ini");else tt(S.cc?"Subtitle aktif":"Subtitle mati");return}
  if(t.id=="shb"){share(P.d);return}
- if(t.id=="vf"){$("pick").click();return}
+ if(t.id=="dlb"){var kd=P.d.id+"-"+P.n;if(DLK[kd]){dlDel(kd);tt("Unduhan dihapus");updDl()}else dlEp(P.d,P.n);return}
+ if(t.dataset.dl){var dd2=dr(+t.dataset.dl),st2=nextOf(dd2.id).n,q2=[];for(var n2=st2;n2<=dd2.e&&q2.length<5;n2++){if(n2<=avail(dd2)&&!DLK[dd2.id+"-"+n2])q2.push(n2)}if(!q2.length){tt("Tidak ada episode baru untuk diunduh");return}tt("Mengunduh "+q2.length+" episode…");(function nx(){var n3=q2.shift();if(n3)dlEp(dd2,n3,nx)})();return}
+ if(t.dataset.dd){var tg2=t.dataset.dd;Object.keys(DLK).forEach(function(k){if(tg2=="all"||k.split("-")[0]==tg2)dlDel(k)});openDl();return}
+ if(t.id=="bkb"){openBackup();return}
+ if(t.id=="bkcopy"){var cc2=bkCode();(navigator.clipboard?navigator.clipboard.writeText(cc2):Promise.reject()).then(function(){tt("Kode cadangan disalin")}).catch(function(){tt("Tidak bisa menyalin. Coba tombol Bagikan.")});return}
+ if(t.id=="bkshare"){if(navigator.share)navigator.share({title:"Cadangan Drakoo",text:bkCode()}).catch(function(){});else tt("Bagikan tidak tersedia. Pakai Salin.");return}
+ if(t.id=="bkrest"){var bm=bkRestore($("bkt").value);if(bm)$("bkmsg").textContent=bm;else{tt("Data dipulihkan");closeOv("sub")}return}
+ if(t.id=="vf"){closeOv("menu");$("pick").click();return}
+ if(t.id=="menub"){if(OV.indexOf("menu")>-1)closeOv("menu");else{$("pmenu").classList.add("show");pushOv("menu");updDl()}return}
+ if(t.dataset.og){var og=t.dataset.og,ox=ONB.indexOf(og);if(ox>-1)ONB.splice(ox,1);else ONB.push(og);t.classList.toggle("on",ox<0);return}
+ if(t.id=="onbok"){S.fg=ONB.slice();S.onb=1;sv();$("onb").classList.remove("show");render();tt(S.fg.length?"Genre favorit disimpan":"Kamu bisa memilih genre nanti di Pengaturan");return}
+ if(t.id=="onbskip"){S.onb=1;sv();$("onb").classList.remove("show");return}
+ if(t.id=="onbb"){showOnb();return}
  
 });
 $("avin").addEventListener("change",function(){var f=this.files[0];this.value="";if(!f)return;var fr=new FileReader();fr.onload=function(){var im=new Image();im.onload=function(){var c=document.createElement("canvas");c.width=c.height=256;var x=c.getContext("2d"),m=Math.min(im.width,im.height);x.drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,256,256);S.pf=Object.assign(pfi(),{img:c.toDataURL("image/jpeg",.82)});sv();var ap=$("avp");if(ap){ap.style.backgroundImage="url("+S.pf.img+")";ap.innerHTML=""}if(S.tab=="my")render();tt("Foto profil diganti")};im.onerror=function(){tt("Foto tidak bisa dibuka")};im.src=fr.result};fr.readAsDataURL(f)});
-applyTheme();render();
-function endIntro(){var i=$("intro");if(!i||i.className=="out")return;i.className="out";setTimeout(function(){if(i.parentNode)i.remove()},700)}
+loadDl();loadCache();applyTheme();applyAccent();render();showOff();fetchCat(false);
+function endIntro(){var i=$("intro");if(!i||i.className=="out")return;i.className="out";setTimeout(function(){if(i.parentNode)i.remove();if(!S.onb)showOnb()},700)}
 $("intro").addEventListener("click",endIntro);
 setTimeout(endIntro,2800);
 </script>
