@@ -1,0 +1,26 @@
+{
+  "video_base": "",
+  "announce": {"id": "selamat", "text": "Selamat datang di Drakoo! Drama baru hadir setiap minggu."},
+  "app": {"version": "1.3.0", "url": "", "note": ""},
+  "collections": [
+    {"title": "Balas dendam pilihan", "ids": [1, 9]},
+    {"title": "Cocok untuk akhir pekan", "ids": [2, 6, 7]}
+  ],
+  "dramas": [
+    {"id": 0, "t": "Istriku Ke-2 CEO", "g": "Romansa", "e": 60, "s": "Dinikahi demi menutup rahasia keluarga, Laras mulai mencari tahu siapa yang sebenarnya ia nikahi.", "p": 4800000, "tr": 1, "c": ["#ff7a59", "#5b1a4a"], "l": ["Kamu pikir aku akan diam saja?", "Pernikahan ini hanya di atas kertas.", "Siapa yang kirim pesan itu?"], "q": "Cinta kadang datang di saat yang tidak terduga…", "v": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", "lb": "HOT"},
+    {"id": 1, "t": "Pewaris yang Menyamar", "g": "Balas Dendam", "e": 72, "s": "Ia pulang sebagai tukang ojek, padahal pemilik perusahaan yang dulu mengusirnya.", "p": 4100000, "tr": 0, "c": ["#3b82f6", "#0f1a3a"], "l": ["Mereka belum tahu siapa aku.", "Tiga tahun lalu kalian menutup pintu.", "Sekarang giliranku."], "lb": "HOT"},
+    {"id": 2, "t": "Kontrak Pacar Sewaan", "g": "Komedi", "e": 48, "s": "Disewa untuk berpura-pura jadi pacar selama sebulan, lalu pura-puranya mulai terasa nyata.", "p": 3700000, "tr": -1, "c": ["#f472b6", "#7c1d4f"], "l": ["Aturan nomor satu: jangan baper.", "Kenapa kamu menatapku begitu?", "Ini cuma akting, kan?"]},
+    {"id": 3, "t": "Mertua Bukan Sembarang", "g": "Keluarga", "e": 55, "s": "Menantu miskin dihina setiap hari, sampai mertuanya membuka identitas aslinya di depan semua orang.", "p": 3200000, "tr": -1, "c": ["#34d399", "#0b3b2e"], "l": ["Duduk di sana, jangan menyentuh apa pun.", "Ibu, tolong percaya padaku.", "Kalian semua salah menilai dia."]},
+    {"id": 4, "t": "Malam di Rumah Kosong", "g": "Misteri", "e": 40, "s": "Seorang penulis menginap di rumah tua dan menemukan catatan harian yang ditulis dengan tulisannya sendiri.", "p": 2900000, "tr": 0, "c": ["#a78bfa", "#1b1038"], "l": ["Tulisan ini… milikku?", "Ada yang berjalan di lantai atas.", "Jangan buka pintu itu."]},
+    {"id": 5, "t": "Dokter Cinta Pertama", "g": "Romansa", "e": 64, "s": "Dua belas tahun setelah perpisahan, mereka bertemu lagi di ruang gawat darurat yang sama.", "p": 3500000, "tr": 2, "c": ["#fbbf24", "#7a2e0e"], "l": ["Kamu masih pakai parfum itu.", "Pasien ini butuh operasi sekarang.", "Aku tidak pernah berhenti menunggu."]},
+    {"id": 6, "t": "Bos Galak Jatuh Cinta", "g": "Komedi", "e": 45, "s": "Sekretaris baru dikenal anti-senyum, bosnya dikenal anti-cinta. Kantor pun jadi medan perang yang lucu.", "p": 2400000, "tr": 1, "c": ["#fb923c", "#7c2d12"], "l": ["Kopinya salah lagi, Bu.", "Saya tidak jatuh cinta. Saya kesal.", "Kenapa jantungku berisik begini?"]},
+    {"id": 7, "t": "Anak Kembar Sang Miliarder", "g": "Keluarga", "e": 58, "s": "Seorang ibu tunggal pulang ke kota asal bersama dua anak kembar yang wajahnya mirip pria terkaya di sana.", "p": 2100000, "tr": -2, "c": ["#38bdf8", "#0c2d48"], "l": ["Ma, kenapa Om itu mirip kita?", "Jangan tanya soal ayah kalian.", "Dua puluh tahun aku mencari."]},
+    {"id": 8, "t": "Surat dari Masa Depan", "g": "Misteri", "e": 36, "s": "Setiap pagi ada surat baru di kotak pos, ditulis oleh dirinya sendiri sepuluh tahun lagi.", "p": 1800000, "tr": 1, "c": ["#2dd4bf", "#042f2e"], "l": ["Jangan naik mobil itu hari ini.", "Siapa yang mengirim surat ini?", "Aku harus mengubah akhirnya."]},
+    {"id": 9, "t": "Putri yang Dibuang", "g": "Balas Dendam", "e": 66, "s": "Diusir dari rumah keluarga, ia kembali lima tahun kemudian sebagai pemilik gedung tempat mereka bekerja.", "p": 1500000, "tr": 0, "c": ["#e11d48", "#3b0a1a"], "l": ["Kalian lupa siapa aku?", "Aku tidak datang untuk meminta maaf.", "Mulai besok, aturannya aku yang buat."], "lb": "BARU"}
+  ],
+  "soon": [
+    {"id": 100, "t": "Rahasia di Balik Topeng", "g": "Misteri", "at": "2026-11-07", "c": ["#818cf8", "#1e1b4b"]},
+    {"id": 101, "t": "Menikah dengan Musuh", "g": "Romansa", "at": "2026-11-14", "c": ["#fb7185", "#4c0519"]},
+    {"id": 102, "t": "Pengantin Pengganti", "g": "Balas Dendam", "at": "2026-11-21", "c": ["#f59e0b", "#451a03"]}
+  ]
+}
